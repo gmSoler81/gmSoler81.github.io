@@ -1,0 +1,38 @@
+.servicio{
+    border: none !important;
+    
+}
+.bg-color{
+    background-color: #F8F9FA;
+}
+.foto:hover{
+ width: 120px;
+}
+.caja button{
+    padding-top: 20px;
+}
+.caja{
+    border: #CD6155 2px solid;
+    border-radius: 10px;
+    height: 250px;
+    
+}
+
+.nombre{
+    color: #CD6155;
+}
+.solgia:hover{
+    color: #CD9D55;
+    font-size:xx-large;
+}
+.icono{
+    text-decoration: none;
+    color: #696565;
+}
+footer{
+    height: auto;
+    border-top: #000 1px solid;
+    padding-top: 30px;
+    background-color: #000;
+    color: aliceblue;
+}
