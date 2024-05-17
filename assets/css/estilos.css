@@ -15,7 +15,7 @@
     border: #CD6155 2px solid;
     border-radius: 10px;
     height: 250px;
-    
+    margin: 5px;
 }
 
 .nombre{
@@ -29,6 +29,12 @@
     text-decoration: none;
     color: #696565;
 }
+.bg-blog{
+    background-color: #263140;
+}
+.link-color{
+    color: #C3B59A !important;
+}
 footer{
     height: auto;
     border-top: #000 1px solid;
@@ -36,3 +42,27 @@ footer{
     background-color: #000;
     color: aliceblue;
 }
+.contenido {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+article {
+    margin-bottom: 20px;
+}
+article h2 {
+    color: #333;
+}
+article p {
+    line-height: 1.5;
+}
+/* div.example {
+    background-color: yellow;
+    padding: 20px;
+  }
+  
+  @media screen and (max-width: 600px) {
+    div.example {
+      display: none;
+    }
+  } */
