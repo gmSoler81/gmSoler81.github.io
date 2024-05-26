@@ -19,6 +19,15 @@
             crossorigin="anonymous"
         />
         <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+        <style>
+          .mensaje {
+              display: none;
+              color: green;
+              font-weight: bold;
+              margin-top: 10px;
+              text-align: center;
+          }
+      </style>
     </head>
 
     <body class="bg-color">
@@ -39,6 +48,9 @@
                     </li>
                     <li class="nav-item">
                       <a class="nav-link link-color" href="/#servicios">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link link-color" href="/#experiencia" id="link-experiencia">Historia laboral</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link link-color" href="/#contacto">Contacto</a>
@@ -65,19 +77,27 @@
                       <p class="col-md-8 fs-4 nombre" id="sobre-mi">
                         Hola, mi nombre es Gustavo Soler
                       </p>
-                    <h1 class="display-5 fw-bold ">Soy profesor de máquinas CNC.</h1>
-                    
-                    
-                    <p class="lead ">Como operador y programador de máquinas CNC desde el inicio de mi carrera, mi trayectoria en este campo ha sido diversa y enriquecedora. Junto a mi amigo Daniel, fundamos <class class="solgia">SOLGIA</class> hace unos años con el objetivo de proporcionar servicios y clases de CNC. ...</p>
+                    <h1 class="display-5 fw-bold ">Soy operador y programador CNC.</h1>
+                    <p class="lead">Bienvenido a mi portafolio online, donde podrás conocer más sobre mi trabajo y proyectos en la industria CNC.</p>
                       
-                      <button onclick="mostrarMas(this)" type="button">Seguir leyendo</button>
+                    <button onclick="mostrarMas(this)" type="button">Seguir leyendo</button>
                       <div id="masContenido" style="display: none;">
+
+                    <p class="lead ">Con 20 años de experiencia en la industria. Junto a mi amigo Daniel, fundamos <class class="solgia"  id="toastbtn">SOLGIA</class>
+                       hace unos años con el objetivo de proporcionar servicios y clases de CNC. ...</p>
+                    <div class="toast">
+                      <div class="toast-header">
+                        <strong class="me-auto">Servicios y capacitación para empresas</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                      </div>
+                      <div class="toast-body">
+                        <p>Programación y puesta a punto</p>
+                      </div>
+                    </div>
                      <p class="lead ">
-                      Esta experiencia emprendedora ha sido fundamental en mi desarrollo, brindándome una perspectiva única sobre los desafíos y oportunidades en nuestra industria. Con más de dos décadas de experiencia en el manejo de máquinas CNC, he cultivado un profundo conocimiento técnico y empresarial. Esta combinación me permite ofrecer soluciones innovadoras y de calidad superior a nuestros clientes.
-
-Seguimos comprometidos con el crecimiento y la excelencia en todo lo que hacemos a través de Solgia. Continuamos compartiendo nuestro conocimiento a través de clases y servicios personalizados de CNC, adaptándonos a las necesidades específicas de cada cliente.
-
-Dedico cada día a seguir aprendiendo y creciendo en este apasionante campo, buscando constantemente nuevas formas de superar los desafíos y alcanzar la excelencia en cada proyecto.</p>
+                      A lo largo de mi carrera, he trabajado en una variedad de máquinas, incluyendo tornos, centros de torneado, fresadoras, centros de mecanizado y alesadoras.</p>
+                      <p class="lead ">Realizo la programación directamente al pie de máquina e interpreto rápidamente los programas hechos en CAD/CAM, asegurándome de comprender plenamente las intenciones del programador. He manejado proyectos complejos que requieren alta precisión y una atención meticulosa al detalle.</p>
+                      <p class="lead ">Mi objetivo profesional es continuar desarrollando mis habilidades técnicas y asumir roles de liderazgo en proyectos de manufactura avanzada. Estoy interesado en formar parte de un equipo innovador donde pueda contribuir al desarrollo de soluciones de mecanizado de alta calidad, mejorar los procesos de producción y compartir mis conocimientos a través de la mentoría y la capacitación de nuevos talentos en el campo CNC.</p>
                     </div>
                   </div>
                   
@@ -91,6 +111,10 @@ Dedico cada día a seguir aprendiendo y creciendo en este apasionante campo, bus
             
 
             <h2 class="text-center titulo py-3" id="servicios">Servicios</h2>
+
+            <blockquote class="blockquote">
+              <p>En SOLGIA, ofrecemos servicios de programación CNC, operación de máquinas, y clases especializadas para todos los niveles. Contacta con nosotros para mejorar tu producción y habilidades en CNC.</p>
+            </blockquote>
 
             <div class="row py-5 text-center">
                 <div class="col ">
@@ -126,28 +150,76 @@ Dedico cada día a seguir aprendiendo y creciendo en este apasionante campo, bus
             </div>
 
             
+            <div class="container">
               <h2 class="text-center titulo bg-dark text-white py-2" id="contacto">Contacto</h2>
-
-              <form action="enviarformulario.php"  method="post">
-                <div class="mb-3 mt-3">
-                  <input type="text" class="form-control" id="nombre" placeholder="Tu nombre" name="nombre">
-                </div>
-                <div class="mb-3 mt-3">
-                  <input type="email" class="form-control" id="email" placeholder="El email" name="email">
-                </div>
-                <textarea class="form-control" rows="5" id="comment" placeholder="Acá el comentario" name="mensaje"></textarea>
-                
-                <br>
-                <button type="submit" class="btn btn-dark">Submit</button>
+              <form id="myForm" action="enviarformulario.php" method="post">
+                  <div class="mb-3 mt-3">
+                      <input type="text" class="form-control" id="nombre" placeholder="Tu nombre" name="nombre" required>
+                  </div>
+                  <div class="mb-3 mt-3">
+                      <input type="email" class="form-control" id="email" placeholder="El email" name="email" required>
+                  </div>
+                  <textarea class="form-control" rows="5" id="comment" placeholder="Acá el comentario" name="mensaje" required></textarea>
+                  <br>
+                  <button type="submit" class="btn btn-dark">Enviar consulta</button>
               </form>
+              <div id="message" class="mensaje">¡Gracias por tu mensaje!</div>
+          </div>
+      
+
             </section>
+            <section id="contenido-laboral" style="display: none;">
+              <div >
+
+                <h2 class="text-center titulo bg-blog text-white py-2" id="experiencia">Experiencia Laboral</h2>
+
+                <button id="boton-volver" type="button" class="btn" style="background-color: #0a0b0c; color: #fff; float: right; display: none;">X</button>
+
+                <div class="contenido">
+                  <article>
+                      <div class="row">
+                        <h4 class="title">Operador y programador CNC | San Diego S.A.</h4>
+                          <p>desde 2011 hasta la actualidad.</p>
+                          <ul>
+                            <li>Programación y operación de tornos y fresas CNC.</li>
+                            <li>Configuración y ajuste de máquinas para la producción de piezas de precisión.</li>
+                            <li>Supervisión de procesos de mecanizado. </li>
+                            <li>Capacitación y mentoría de nuevos operadores en el uso de máquinas y programación CNC.</li>
+                          </ul>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <h4 class="title">Co-Fundador y Programador CNC | SOLGIA</h4>
+                          <p>desde 2021 hasta la actualidad.</p>
+                          <ul>
+                            <li>Co-fundación y gestión de SOLGIA, una empresa dedicada a ofrecer servicios y formación en CNC.</li>
+                            <li>Diseño y desarrollo de programas CNC personalizados para una variedad de máquinas, incluyendo tornos, fresadoras, centros de mecanizado y alesadoras.</li>
+                            <li>Impartición de clases y talleres sobre programación y operación de máquinas CNC.</li>
+                            <li>Asesoramiento a clientes sobre la optimización de procesos de mecanizado y selección de herramientas.</li>
+                            <li>Colaboración con ingenieros y diseñadores para desarrollar soluciones innovadoras en la fabricación de piezas.</li>
+                          </ul>
+                      </div>
+                      <div class="row">
+                        <h4 class="title">Operador y programador CNC | Simsa S.A.</h4>
+                          <p>desde 2008 hasta 2011.</p>
+                          <ul>
+                            <li>Operador y programador de fresadora y torno CNC en la producción de componentes mecánicos.</li>
+                            <li>Realización de configuraciones de máquinas y ajustes necesarios para la producción diaria.</li>
+                            <li>Mantenimiento preventivo de máquinas CNC.</li>
+                          </ul>
+                      </div>
+                      
+                  </article>
+                  </div>
+
+                </section>
 
             <section id="contenido-blog" style="display: none;">
               <div >
 
                 <h2 class="text-center titulo bg-blog text-white py-2" id="blog">Blog</h2>
                 
-                  <button id="boton-volver" type="button" class="btn" style="background-color: #007bff; color: #fff; float: right; display: none;">X</button>
+                  <button id="boton-volver" type="button" class="btn" style="background-color: #0a0b0c; color: #fff; float: right; display: none;">X</button>
                 
                 <div class="contenido">
                   <article>
@@ -282,17 +354,21 @@ Dedico cada día a seguir aprendiendo y creciendo en este apasionante campo, bus
 
         <footer>
             <div class="row">
-                <div class="col-4 text-center">
+                <div class="col text-center">
                     <h4 class="">Mis redes</h4>
-                    <img src="assets/img/gmail.png" width="50px"  alt="gmail">
+                    <a href="mailto:gmsoler81@gmail.com">
+                      <img src="assets/img/gmail.png" width="50px"  alt="gmail">
+                    </a>
                     <img src="assets/img/face.png" width="50px"  alt="facebook">
-                    <img src="assets/img/linkedin.png" width="50px"  alt="linkedin">
+                    <a href="https://www.linkedin.com/in/gustavo-soler" target="_blank">
+                      <img src="assets/img/linkedin.png" width="50px"  alt="linkedin">
+                    </a>
                     <img src="assets/img/youtube.png" width="50px"  alt="youtube">
                 </div>
-                <div class="col-6">
+                <div class="col">
                     <h3>Portfolio creado por AS-WEB 2024</h3>
                 </div>
-                <div class="col-2">
+                <div class="col">
                     <a href="https://www.flaticon.es/iconos-gratis/maquina-cnc" title="máquina cnc iconos" class="icono">Iconos creado por Smashicons - Flaticon</a>
                 </div>
 
@@ -303,6 +379,44 @@ Dedico cada día a seguir aprendiendo y creciendo en este apasionante campo, bus
            
         </footer>
         <!-- Bootstrap JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#myForm').on('submit', function(event) {
+                    event.preventDefault();
+    
+                    $.ajax({
+                        url: 'enviarformulario.php',
+                        type: 'POST',
+                        data: $(this).serialize(),
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                $('#message').text(response.message).fadeIn();
+    
+                                setTimeout(function() {
+                                    $('#message').fadeOut();
+                                    $('#myForm')[0].reset();
+                                }, 2000);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Hubo un error al enviar el formulario. Inténtalo de nuevo.');
+                        }
+                    });
+                });
+            });
+            document.getElementById("toastbtn").onclick = function() {
+  var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+  var toastList = toastElList.map(function(toastEl) {
+    return new bootstrap.Toast(toastEl)
+  })
+  toastList.forEach(toast => toast.show()) 
+}
+        </script>
+        
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
