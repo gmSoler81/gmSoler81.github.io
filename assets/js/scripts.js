@@ -10,6 +10,18 @@ document.getElementById('link-blog').addEventListener('click', function(event) {
     botonVolver.style.display = 'block'; // Muestra el botón de volver
 });
 
+document.getElementById('link-experiencia').addEventListener('click', function(event) {
+    event.preventDefault(); // Evita que el enlace cambie la URL
+
+    var contenidoAnterior = document.getElementById('contenido-anterior');
+    var contenidoLaboral = document.getElementById('contenido-laboral');
+    var botonVolver = document.getElementById('boton-volver');
+
+    contenidoAnterior.style.display = 'none'; // Oculta el contenido anterior
+    contenidoLaboral.style.display = 'block'; // Muestra el contenido del blog
+    botonVolver.style.display = 'block'; // Muestra el botón de volver
+});
+
 document.getElementById('boton-volver').addEventListener('click', function(event) {
     var contenidoAnterior = document.getElementById('contenido-anterior');
     var contenidoBlog = document.getElementById('contenido-blog');
@@ -31,3 +43,5 @@ function mostrarMas(boton) {
         boton.textContent = 'Seguir leyendo';
     }
 }
+
+
