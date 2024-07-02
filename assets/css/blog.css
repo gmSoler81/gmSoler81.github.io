@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+}
+
+.logo{
+    font-family: 'Raleway', sans-serif !important;
+}
+logo{
+    font-family: 'Raleway', sans-serif !important;
+    color: #3e5f8a !important;
+    size: 2em !important;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif !important;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+}
+
+header {
+    background-color: #343a40;
+}
+section{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* estilos.css */
+
+/* Estilo para el dropdown del menú */
+.navbar .dropdown-menu {
+    background-color: #f8f9fa; /* Fondo claro */
+    border-radius: 0.25rem; /* Bordes redondeados */
+}
+
+.navbar .dropdown-menu .dropdown-item {
+    color: #333; /* Color del texto */
+}
+
+.navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #e2e6ea; /* Color de fondo al pasar el ratón */
+}
+
+
+.nav-link, .navbar-brand {
+    color: #fff !important;
+}
+
+.nav-link:hover, .navbar-brand:hover {
+    color: #ffc107 !important;
+}
+
+.titulo {
+    background-color: #ffc107;
+    padding: 0px 0;
+}
+
+.titulo h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
+.contenido {
+    margin-top: 20px;
+}
+
+article {
+    background-color: #F8F9F9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+.subarticulo {
+    background-color: #F2F3F4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+article h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    color: #343a40;
+}
+
+article h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    color: #ffc107;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.title{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    color: #222111;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.subtitulo{
+    color: #F0B27A;
+}
+
+article p {
+    text-align: justify;
+}
+
+#indice {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+#indice ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#indice li {
+    margin-bottom: 0.5rem;
+}
+
+#indice a {
+    text-decoration: none !important;
+    color: #007bff;
+}
+
+#indice a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+}
+
+.btn-custom {
+    background-color: #ffc107;
+    color: #fff;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #e0a800;
+}
+
+/* Custom styles for images */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Margins and padding for a clean layout */
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Custom styles for articles */
+article {
+    margin-bottom: 3rem;
+}
+
+.video-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.imagenes img {
+    width: 45%;
+    margin: 0 2%;
+}
+
+.enlaces-relacionados {
+    margin-top: 20px;
+}
+
+.enlaces-relacionados a {
+    color: #333;
+}
+
+.cta {
+    margin-top: 20px;
+}
+.cta a{
+    color: red;
+}

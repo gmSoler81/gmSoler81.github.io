@@ -1,0 +1,88 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+article {
+    background: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
+h2, h3 {
+    color: #333;
+}
+
+h2.text-center, h3.text-center, h5.text-center {
+    text-align: center;
+}
+
+p {
+    margin: 10px 0;
+}
+
+/* Estilos para las lecciones */
+ul.lecciones {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.lecciones li {
+    margin: 10px 0;
+}
+
+ul.lecciones li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+ul.lecciones li a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para la sección de llamada a la acción */
+.cta {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.cta p {
+    font-size: 1.2em;
+    margin: 20px 0;
+}
+
+/* Estilos para los botones */
+a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+a.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+a.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+a.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+a.btn-secondary:hover {
+    background-color: #5a6268;
+}
