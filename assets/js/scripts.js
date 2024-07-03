@@ -1,14 +1,14 @@
-document.getElementById('link-blog').addEventListener('click', function(event) {
-    event.preventDefault(); // Evita que el enlace cambie la URL
+// document.getElementById('link-blog').addEventListener('click', function(event) {
+//     event.preventDefault(); // Evita que el enlace cambie la URL
 
-    var contenidoAnterior = document.getElementById('contenido-anterior');
-    var contenidoBlog = document.getElementById('contenido-blog');
-    var botonVolver = document.getElementById('boton-volver');
+//     var contenidoAnterior = document.getElementById('contenido-anterior');
+//     var contenidoBlog = document.getElementById('contenido-blog');
+//     var botonVolver = document.getElementById('boton-volver');
 
-    contenidoAnterior.style.display = 'none'; // Oculta el contenido anterior
-    contenidoBlog.style.display = 'block'; // Muestra el contenido del blog
-    botonVolver.style.display = 'block'; // Muestra el botón de volver
-});
+//     contenidoAnterior.style.display = 'none'; // Oculta el contenido anterior
+//     contenidoBlog.style.display = 'block'; // Muestra el contenido del blog
+//     botonVolver.style.display = 'block'; // Muestra el botón de volver
+// });
 
 document.getElementById('link-experiencia').addEventListener('click', function(event) {
     event.preventDefault(); // Evita que el enlace cambie la URL
