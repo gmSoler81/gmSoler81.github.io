@@ -1,0 +1,576 @@
+/* 1. VARIABLES Y CONFIGURACIÓN BASE */
+:root {
+    --azul-tech: #00bcd4;
+    --azul-dark: #008c9e;
+    --oscuro-industrial: #1a1a1a;
+    --gris-card: #252525;
+    --blanco: #ffffff;
+    --gris-claro: #f4f4f4;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: var(--gris-claro);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 2. LAYOUT (Header, Footer, Secciones) */
+header {
+    background-color: var(--oscuro-industrial);
+    color: var(--blanco);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo h1 {
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.logo span { color: var(--azul-tech); }
+
+nav ul { display: flex; list-style: none; gap: 20px; margin: 0; }
+nav a { color: var(--blanco); text-decoration: none; font-weight: bold; transition: 0.3s; }
+nav a:hover { color: var(--azul-tech); }
+
+section {
+    padding: 4rem 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+footer {
+    background-color: var(--oscuro-industrial);
+    color: #888;
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid #333;
+}
+
+/* 3. HERO (BIENVENIDA) */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../img/hero-bg.jpg') center/cover;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--blanco);
+}
+
+/* 4. SELECTOR DE MUNDOS (HUB) */
+.selector-mundos { background-color: var(--blanco); }
+
+.titulo-seccion {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 2rem;
+    color: var(--oscuro-industrial);
+}
+
+.contenedor-opciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.opcion-card {
+    flex: 1;
+    min-width: 300px;
+    height: 350px;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+}
+
+.opcion-card:hover { transform: translateY(-10px); }
+
+.solgia-bg { background: var(--oscuro-industrial) url('../img/fondo-cnc.jpg') center/cover; }
+.mundo3d-bg { background: var(--oscuro-industrial) url('../img/fondo-3d.jpg') center/cover; }
+
+.overlay {
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    color: var(--blanco);
+    text-align: center;
+}
+
+.overlay h3 { font-family: 'Orbitron', sans-serif; font-size: 2rem; margin: 0; }
+
+.btn-opcion {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: var(--azul-tech);
+    color: var(--blanco);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+/* 5. GALERÍA (TU MUNDO 3D) */
+.grid-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.proyecto-card {
+    background: #f9f9f9;
+    border-bottom: 4px solid var(--azul-tech);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.proyecto-card img { width: 100%; height: 200px; object-fit: cover; }
+.proyecto-info { padding: 1.5rem; }
+.categoria { color: var(--azul-tech); font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+
+/* 6. SOLGIA (INDUSTRIAL) */
+/* Badge de categoría */
+.badge {
+    background-color: var(--azul-tech);
+    color: var(--oscuro-industrial);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+/* Estilo para la franja de números/datos */
+.franja-experiencia {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid #333;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dato h4 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: var(--azul-tech);
+    margin: 0;
+}
+
+.dato p {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Efecto en las cards de SolGia */
+.servicio-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.servicio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 188, 212, 0.1);
+}
+
+.seccion-solgia {
+    background-color: var(--oscuro-industrial);
+    color: var(--blanco);
+}
+
+.seccion-solgia .titulo-seccion { color: var(--azul-tech); }
+
+.grid-servicios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.servicio-card {
+    background: var(--gris-card);
+    padding: 2rem;
+    border-radius: 12px;
+    border-left: 5px solid var(--azul-tech);
+    text-align: left;
+}
+
+.servicio-card .icono { font-size: 2rem; margin-bottom: 1rem; }
+.servicio-card .detalle {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 15px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+}
+
+
+/* Estilos del Botón Flotante */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    background-color: #128c7e;
+    transform: scale(1.1);
+}
+
+/* Tooltip (el mensajito que aparece al pasar el mouse) */
+.tooltip-wa {
+    position: absolute;
+    right: 70px;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+.whatsapp-float:hover .tooltip-wa {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Animación de entrada */
+@keyframes pulse-wa {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+.whatsapp-float {
+    animation: pulse-wa 2s infinite;
+}
+
+
+
+/*mi perfil*/
+
+.seccion-perfil {
+    background-color: #fff;
+    padding: 60px 20px;
+}
+
+.contenedor-perfil {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.foto-perfil {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%; /* Esto hace el círculo perfecto */
+    border: 5px solid var(--azul-tech);
+    overflow: hidden; /* Corta lo que sobre de la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* La centra en la sección */
+    box-shadow: 0 0 20px rgba(0, 188, 212, 0.3); /* Brillo sutil de industria 4.0 */
+}
+
+.foto-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantiene la proporción sin estirar */
+    
+    /* PUESTA A PUNTO: Mueve la imagen hacia abajo dentro del círculo */
+    /* El primer valor (50%) es el centrado horizontal. */
+    /* El segundo valor (20%) es la distancia desde ARRIBA. */
+    /* Probá bajando este valor (ej: 15%) o subiéndolo (ej: 25%) */
+    object-position: 50% 20%; 
+
+    transition: all 0.3s ease; /* Un suavizado si pasás el mouse */
+}
+
+.texto-perfil {
+    flex: 1;
+    min-width: 300px;
+}
+
+.skills span {
+    display: inline-block;
+    background: #e0f7fa;
+    color: var(--azul-dark);
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.btn-cv {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    border: 2px solid var(--azul-tech);
+    color: var(--azul-tech);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-cv:hover {
+    background: var(--azul-tech);
+    color: white;
+}
+
+
+
+/* Recursos */
+.seccion-recursos { background-color: #f9f9f9; }
+.grid-recursos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.recurso-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-align: center;
+}
+.recurso-card i { font-size: 3rem; color: var(--azul-tech); margin-bottom: 1rem; }
+.btn-descarga {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--azul-tech);
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid var(--azul-tech);
+    padding: 8px 20px;
+    border-radius: 5px;
+}
+
+/* Colaboración */
+.colaboracion { padding: 4rem 2rem; text-align: center; background: var(--oscuro-industrial); }
+.card-apoyo {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #252525;
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px dashed var(--azul-tech);
+    color: white;
+}
+.botones-pago {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.btn-cafecito { background: #ff813f; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; }
+.btn-mp { background: #009ee3; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; }
+
+.seccion-apoyo {
+    padding: 60px 20px;
+    background-color: #1a1a1a; /* Fondo oscuro consistente con SolGia */
+    text-align: center;
+}
+
+.card-apoyo {
+    max-width: 700px;
+    margin: 0 auto;
+    background: #252525;
+    padding: 40px;
+    border-radius: 15px;
+    border: 2px dashed #00bcd4; /* Borde celeste tecnológico */
+    color: #ffffff;
+}
+
+.icono-apoyo {
+    font-size: 3rem;
+    color: #00bcd4;
+    margin-bottom: 20px;
+}
+
+.card-apoyo h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.card-apoyo p {
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.contenedor-botones-pago {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-pago {
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.btn-pago:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.btn-cafecito {
+    background-color: #ff813f; /* Color oficial de Cafecito */
+    color: white;
+}
+
+.btn-mercadopago {
+    background-color: #009ee3; /* Color oficial de Mercado Pago */
+    color: white;
+}
+
+.nota-agradecimiento {
+    margin-top: 25px;
+    font-size: 0.9rem !important;
+    font-style: italic;
+    color: #888 !important;
+}
+
+.grid-consejos-dinamico {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.consejo-card {
+    background: #1e1e1e;
+    padding: 25px;
+    border-radius: 10px;
+    border-left: 4px solid #00bcd4; /* El celeste de SolGia */
+    text-align: left;
+}
+
+.badge-cat {
+    color: #00bcd4;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.consejo-card h3 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.consejo-card p {
+    color: #bbb;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+
+/* El fondo oscuro que cubre la web */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+}
+
+/* La caja del contenido */
+.modal-contenido {
+    background-color: #1e1e1e;
+    margin: 5% auto;
+    padding: 30px;
+    border: 2px solid #00bcd4;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 15px;
+    position: relative;
+}
+
+/* Botón de cerrar */
+.cerrar-modal {
+    color: #00bcd4;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar-modal:hover { color: #fff; }
+
+.modal-contenido {
+    background-color: #1e1e1e;
+    margin: 2% auto; /* Bajamos el margen para que use más pantalla */
+    padding: 30px;
+    border: 2px solid #00bcd4;
+    width: 90%; /* Más ancho */
+    max-width: 1000px; /* Tamaño máximo mayor */
+    max-height: 85vh; /* Altura máxima del 85% de la pantalla */
+    overflow-y: auto; /* IMPORTANTE: permite scroll si el contenido es largo */
+    border-radius: 15px;
+    position: relative;
+}
+
+/* Personalizar la barra de scroll para que se vea tecnológica */
+.modal-contenido::-webkit-scrollbar {
+    width: 8px;
+}
+.modal-contenido::-webkit-scrollbar-thumb {
+    background: #00bcd4;
+    border-radius: 10px;
+}
