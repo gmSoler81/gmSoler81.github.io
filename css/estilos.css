@@ -14,7 +14,9 @@ body {
     background-color: var(--gris-claro);
     color: #333;
     line-height: 1.6;
+    overflow-x: hidden; /* Esto mata cualquier scroll lateral molesto */
 }
+
 
 /* 2. LAYOUT (Header, Footer, Secciones) */
 header {
@@ -27,6 +29,38 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+/* Por defecto, el icono está oculto en PC */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--azul-tech); /* Tu azul de SolGia */
+}
+
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+
+    .nav-list {
+        display: none; /* Se oculta el menú normal */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background-color: #fff;
+    }
+
+    .nav-list.active {
+        display: flex; /* Se muestra cuando hacemos clic */
+    }
 }
 
 .logo h1 {
@@ -276,6 +310,24 @@ footer {
     background-color: #128c7e;
     transform: scale(1.1);
 }
+
+.btn-whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px; /* Se queda pegado a la derecha sin empujar la web */
+    background-color: #25d366;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    text-decoration: none;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 /* Tooltip (el mensajito que aparece al pasar el mouse) */
 .tooltip-wa {

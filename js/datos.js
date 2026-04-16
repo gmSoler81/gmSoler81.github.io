@@ -85,3 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     });
 });
+
+const menu = document.getElementById('mobile-menu');
+const navList = document.getElementById('nav-list');
+
+menu.addEventListener('click', () => {
+    navList.classList.toggle('active'); // Abre y cierra el menú
+});
