@@ -656,3 +656,123 @@ footer {
     background: #00bcd4;
     border-radius: 10px;
 }
+
+.contenedor-test {
+    background: #f4f4f4;
+    padding: 50px 20px;
+    text-align: center;
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.grid-opciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-opcion {
+    padding: 15px;
+    background: #00bcd4;
+    color: white;
+    border: 2px solid #00bcd4;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-opcion:hover {
+    background: #00bcd4;
+    color: white;
+}
+
+.oculto { display: none !important; }
+
+#certificado-mini {
+    background: white;
+    border: 8px double #003366; /* Azul industrial */
+    padding: 30px;
+    margin-top: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+#tipo-test-titulo {
+    color: #00bcd4;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+
+.diploma-canvas {
+    background: #fff;
+    padding: 20px;
+    border: 15px solid #003366; /* Azul Marino Industrial */
+    position: relative;
+    color: #333;
+    margin: 30px auto;
+    max-width: 700px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.diploma-border {
+    border: 2px solid #00bcd4; /* Línea interna Cian */
+    padding: 30px;
+}
+
+.diploma-titulo {
+    font-size: 2.5rem;
+    color: #003366;
+    font-family: 'serif';
+    margin-bottom: 20px;
+}
+
+.diploma-nombre {
+    font-size: 2rem;
+    color: #222;
+    border-bottom: 2px solid #333;
+    display: inline-block;
+    padding: 0 30px;
+    margin: 15px 0;
+}
+
+.diploma-materia {
+    color: #00bcd4;
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+.diploma-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    font-size: 0.8rem;
+}
+
+.instruccion-descarga {
+    background: #fff3cd;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #856404;
+    margin: 15px 0;
+}
+
+/* Ajuste para el logo dentro del certificado */
+.mini-logo {
+    max-width: 100px; /* Antes estaba en 100px o automático, ahora es más discreto */
+    height: auto;
+    margin-bottom: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto; /* Estos dos centran el logo */
+}
+
+/* También podemos retocar un poco el espacio del título si el logo es más chico */
+.diploma-titulo {
+    font-size: 2.2rem; /* Lo bajamos un pelín para que armonice */
+    margin-top: 10px;
+    color: #003366;
+}
