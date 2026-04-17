@@ -17,6 +17,7 @@
         </div>
         <nav class="navbar">
     
+    
     <div class="menu-toggle" id="mobile-menu">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -125,7 +126,7 @@
             </div>
             <div class="dato">
                 <h4>Software</h4>
-                <p>NX 10, CAMWorks, SolidWorks</p>
+                <p>NX, CAMWorks, SolidWorks</p>
             </div>
         </div>
 
@@ -164,6 +165,37 @@
         <div id="seccion-consejos-detalle" class="grid-consejos-dinamico" style="margin-top: 50px;">
             </div>
         </div>
+    </div>
+</section>
+
+<section id="test-seccion" class="contenedor-test">
+    <h2 class="titulo-seccion">Centro de Evaluación SolGia</h2>
+    
+    <div id="selector-test">
+        <p>Seleccioná tu especialidad para comenzar:</p>
+        <div class="grid-opciones">
+            <button onclick="iniciarTest('torno')" class="btn-opcion">🚀 Test de Torno CNC</button>
+            <button onclick="iniciarTest('fresa')" class="btn-opcion">⚙️ Test de Fresadora/Centro</button>
+        </div>
+    </div>
+
+    <div id="quiz-container" class="oculto">
+        <h3 id="tipo-test-titulo"></h3>
+        <div id="pregunta-container">
+            <p id="pregunta-texto"></p>
+            <div id="opciones-btns" class="grid-opciones"></div>
+        </div>
+    </div>
+
+    <div id="resultado-container" class="oculto">
+        <div id="certificado-mini">
+            <h3>Resultado: <span id="puntaje"></span></h3>
+            <p id="feedback-texto"></p>
+            <hr>
+            <h4>SOLGIA - CAPACITACIÓN TÉCNICA</h4>
+            <p>Gustavo Soler | Consultor Industrial</p>
+        </div>
+        <button onclick="location.reload()" class="btn-reiniciar">Volver al inicio</button>
     </div>
 </section>
 
