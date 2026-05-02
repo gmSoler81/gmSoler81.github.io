@@ -92,7 +92,9 @@ footer {
 /* 3. HERO (BIENVENIDA) */
 .hero {
     background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../img/hero-bg.jpg') center/cover;
-    height: 400px;
+    min-height: 400px;
+    height: auto;
+    padding: 60px 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -100,6 +102,62 @@ footer {
     color: var(--blanco);
 }
 
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-hero {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 50px; /* Bordes redondeados para un look moderno */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+/* Botón Principal (Academia) - Resalta más */
+.btn-hero.primary {
+    background-color: #00bcd4; /* Cian SolGia */
+    color: white;
+    border: 2px solid #00bcd4;
+    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+}
+
+.btn-hero.primary:hover {
+    background-color: transparent;
+    color: #00bcd4;
+}
+
+/* Botón Secundario (Servicios) - Más sobrio */
+.btn-hero.secondary {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-hero.secondary:hover {
+    background-color: white;
+    color: #003366; /* Azul Marino SolGia */
+}
+
+/* Ajuste para celulares */
+@media (max-width: 600px) {
+    .hero-buttons {
+        flex-direction: column;
+        gap: 15px;
+        padding: 0 20px;
+    }
+    
+    .btn-hero {
+        width: 100%;
+        text-align: center;
+    }
+}
 /* 4. SELECTOR DE MUNDOS (HUB) */
 .selector-mundos { background-color: var(--blanco); }
 
@@ -705,17 +763,33 @@ footer {
     margin-bottom: 20px;
 }
 
-
 .diploma-canvas {
     background: #fff;
     padding: 20px;
-    border: 15px solid #003366; /* Azul Marino Industrial */
-    position: relative;
+    border: 12px solid #003366; /* Un poco más fino para ganar espacio */
     color: #333;
-    margin: 30px auto;
-    max-width: 700px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin: 5px auto; /* Margen mínimo */
+    max-width: 95%;
+    box-sizing: border-box;
+    text-align: center;
+    /* Eliminamos el max-height y el overflow para que no aparezca el recuadro con scroll */
+    height: auto; 
+    overflow: visible; 
 }
+
+/* Ajuste fino para celulares: reducimos espacios internos */
+@media (max-width: 600px) {
+    .diploma-border { padding: 10px; }
+    .diploma-titulo { font-size: 1.3rem !important; margin: 5px 0 !important; }
+    .diploma-nombre { font-size: 1.1rem !important; margin: 10px 0 !important; }
+    .diploma-texto { font-size: 0.9rem !important; margin: 5px 0 !important; }
+    .diploma-materia { font-size: 1rem !important; }
+    .diploma-footer { margin-top: 20px; font-size: 0.7rem; }
+    .mini-logo { max-width: 45px; }
+}
+
+
+
 
 .diploma-border {
     border: 2px solid #00bcd4; /* Línea interna Cian */
@@ -775,4 +849,97 @@ footer {
     font-size: 2.2rem; /* Lo bajamos un pelín para que armonice */
     margin-top: 10px;
     color: #003366;
+}
+
+/* SECCIÓN CURSOS */
+.seccion-cursos {
+    background-color: #f4f4f4;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.seccion-cursos .subtitulo {
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+    color: #555;
+    font-size: 1.05rem;
+}
+
+.grid-cursos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.curso-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px 25px;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+    border-top: 4px solid var(--azul-tech);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.curso-card:hover {
+    transform: translateY(-5px);
+}
+
+.curso-icono {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.curso-card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    color: var(--oscuro-industrial);
+    margin-bottom: 10px;
+}
+
+.curso-card p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.curso-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.curso-card ul li {
+    font-size: 0.85rem;
+    color: #777;
+    padding: 4px 0;
+}
+
+.curso-card ul li::before {
+    content: "✔ ";
+    color: var(--azul-tech);
+}
+
+.btn-curso {
+    display: inline-block;
+    margin-top: auto;
+    padding: 10px 20px;
+    background-color: var(--azul-tech);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.btn-curso:hover {
+    background-color: var(--azul-dark);
 }
