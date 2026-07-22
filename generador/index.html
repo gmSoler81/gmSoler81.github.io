@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generador de Código G Profesional</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+</head>
+<body class="container">
+    <header>
+        <h2>Asistente de Programación CNC</h2>
+    </header>
+
+    <main>
+        <!-- SELECCIÓN DE OPERACIÓN -->
+        <label for="operacion">Operación de Maquinado</label>
+        <select id="operacion" onchange="mostrarCamposOperacion()">
+            <option value="" disabled selected>Selecciona una operación...</option>
+            <option value="planeado">Planeado / Refrentado</option>
+            <option value="escuadrado">Escuadrado / Contorneado</option>
+            <option value="perforar">Perforado / Ciclos</option>
+        </select>
+
+        <section id="seccion-parametros" style="display: none;">
+            <!-- CERO PIEZA Y CONDICIONES GENERALES -->
+            <h3>1. Configuración de Origen y Husillo</h3>
+            <div class="grid">
+                <div>
+                    <label for="ceroXY">Cero Pieza en XY (Origen)</label>
+                    <select id="ceroXY">
+                        <option value="esquina_inf_izq" selected>Esquina inferior izquierda (X0 Y0)</option>
+                        <option value="centro">Centro de la pieza (X0 Y0)</option>
+                        <option value="esquina_sup_izq">Esquina superior izquierda (X0 Y0)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="velocidad">Velocidad del Husillo (S - RPM)</label>
+                    <input type="number" id="velocidad" value="1200">
+                </div>
+            </div>
+
+            <!-- CONFIGURACIÓN DE HERRAMIENTA -->
+            <h3>2. Datos de la Herramienta</h3>
+            <div class="grid">
+                <div>
+                    <label for="tipoHerramienta">Tipo de Herramienta</label>
+                    <select id="tipoHerramienta">
+                        <option value="fresa_plana" selected>Fresa Plana (End Mill)</option>
+                        <option value="fresa_planeadora">Fresa de Planear (Face Mill)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="numHerramienta">Nº Herramienta (T)</label>
+                    <input type="number" id="numHerramienta" value="1" min="1" max="99">
+                </div>
+                <div>
+                    <label for="diametroHerramienta">Diámetro (Ø mm)</label>
+                    <input type="number" id="diametroHerramienta" value="10" min="0.1" step="0.1">
+                </div>
+            </div>
+
+            <!-- CAMPOS ESPECÍFICOS DE PLANEADO -->
+            <div id="campos-planeado" style="display: none;">
+                <h3>3. Parámetros de Planeado</h3>
+                
+                <h4>Dimensiones del Bloque</h4>
+                <div class="grid">
+                    <div>
+                        <label for="anchoX">Ancho en X (mm)</label>
+                        <input type="number" id="anchoX" value="100">
+                    </div>
+                    <div>
+                        <label for="largoY">Largo en Y (mm)</label>
+                        <input type="number" id="largoY" value="80">
+                    </div>
+                </div>
+
+                <h4>Profundidad y Niveles (Z0 = Superficie Final)</h4>
+                <div class="grid">
+                    <div>
+                        <label for="zInicial">Z Inicial (Sobrematerial - mm)</label>
+                        <input type="number" id="zInicial" value="2.0" step="0.1">
+                    </div>
+                    <div>
+                        <label for="zFinal">Z Final de este programa (mm)</label>
+                        <input type="number" id="zFinal" value="0.0" step="0.1">
+                    </div>
+                    <div>
+                        <label for="pasadaZ">Pasada por profundidad / Stepdown (mm)</label>
+                        <input type="number" id="pasadaZ" value="0.5" step="0.1">
+                    </div>
+                </div>
+
+                <h4>Estrategia y Dirección</h4>
+                <div class="grid">
+                    <div>
+                        <label for="direccionPlaneado">Dirección del Corte</label>
+                        <select id="direccionPlaneado">
+                            <option value="horizontal" selected>Horizontal (Pasadas largas en X)</option>
+                            <option value="vertical">Vertical (Pasadas largas en Y)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="estrategia">Estrategia de Trayectoria</label>
+                        <select id="estrategia">
+                            <option value="zigzag" selected>Zigzag Continuo (Ida y Vuelta)</option>
+                            <option value="climb">Solo Concordante (Climb - Retorno en G00)</option>
+                            <option value="conventional">Solo Convencional (Retorno en G00)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="esquinaInicio">Esquina de Inicio</label>
+                        <select id="esquinaInicio">
+                            <option value="inf_izq" selected>Inferior Izquierda</option>
+                            <option value="sup_izq">Superior Izquierda</option>
+                            <option value="inf_der">Inferior Derecha</option>
+                            <option value="sup_der">Superior Derecha</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h4>Avance</h4>
+                <div class="grid">
+                    <div>
+                        <label for="avanceF">Avance de Corte (F - mm/min)</label>
+                        <input type="number" id="avanceF" value="800">
+                    </div>
+                    <div></div> <!-- Espacio para mantener el grid alineado -->
+                </div>
+            </div>
+
+            <!-- OTROS CAMPOS EN DESARROLLO (Vacíos por ahora) -->
+            <div id="campos-escuadrado" style="display: none;"></div>
+            <div id="campos-perforar" style="display: none;"></div>
+
+            <button onclick="generarEstructuraBase()">Generar Código G</button>
+        </section>
+
+        <!-- CONSOLA DE SALIDA -->
+        <section>
+            <label for="consola">Código G Generado</label>
+            <textarea id="consola" rows="15" readonly style="font-family: monospace; font-size: 14px; background: #1e1e1e; color: #d4d4d4;"></textarea>
+        </section>
+    </main>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
