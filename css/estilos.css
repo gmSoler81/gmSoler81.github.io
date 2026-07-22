@@ -943,3 +943,64 @@ footer {
 .btn-curso:hover {
     background-color: var(--azul-dark);
 }
+/* 5. SECCIÓN DEDICADA GENERADOR G-CODE */
+.seccion-destacada-gcode {
+    background-color: var(--oscuro-industrial);
+    color: var(--blanco);
+    padding: 40px 20px;
+    border-top: 3px solid var(--azul-tech);
+    border-bottom: 3px solid var(--azul-tech);
+}
+
+.contenedor-gcode {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.info-gcode h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    margin: 10px 0;
+    color: var(--blanco);
+}
+
+.info-gcode p {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin: 0;
+}
+
+.badge-herramienta {
+    background-color: var(--azul-tech);
+    color: var(--blanco);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-gcode-principal {
+    display: inline-block;
+    padding: 16px 32px;
+    background-color: var(--azul-tech);
+    color: var(--blanco);
+    text-decoration: none;
+    border-radius: 30px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.btn-gcode-principal:hover {
+    transform: translateY(-3px) scale(1.03);
+    filter: brightness(1.2);
+}
