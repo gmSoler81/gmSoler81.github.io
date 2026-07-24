@@ -1,259 +1,396 @@
-// ==========================================
-// 1. CONTROL DE INTERFAZ (MOSTRAR/OCULTAR)
-// ==========================================
-window.mostrarCamposOperacion = function() {
+// main.js
+
+// 1. Mostrar/Ocultar campos según la operación elegida
+window.mostrarCamposOperacion = function () {
     const operacion = document.getElementById("operacion").value;
-    
-    document.getElementById("seccion-parametros").style.display = "block";
-    document.getElementById("campos-planeado").style.display = "none";
-    document.getElementById("campos-escuadrado").style.display = "none";
-    document.getElementById("campos-perforar").style.display = "none";
-    
-    if (operacion === "planeado") {
-        document.getElementById("campos-planeado").style.display = "block";
-    } else if (operacion === "escuadrado") {
-        document.getElementById("campos-escuadrado").style.display = "block";
-    } else if (operacion === "perforar") {
-        document.getElementById("campos-perforar").style.display = "block";
+    const seccionParametros = document.getElementById("seccion-parametros");
+    const camposPlaneado = document.getElementById("campos-planeado");
+    const camposEscuadrado = document.getElementById("campos-escuadrado");
+    const camposPerforar = document.getElementById("campos-perforar");
+
+    if (!operacion) {
+        seccionParametros.style.display = "none";
+        return;
     }
+
+    seccionParametros.style.display = "block";
+    camposPlaneado.style.display = (operacion === "planeado") ? "block" : "none";
+    camposEscuadrado.style.display = (operacion === "escuadrado") ? "block" : "none";
+    camposPerforar.style.display = (operacion === "perforar") ? "block" : "none";
 };
 
-// ==========================================
-// 2. GENERADOR DE ESTRUCTURA BASE (FANUC)
-// ==========================================
-window.generarEstructuraBase = function() {
-    const rpm = document.getElementById("velocidad").value || 1200;
+// 2. Función Principal: Disparador del Botón
+window.generarEstructuraBase = function () {
+    const operacion = document.getElementById("operacion").value;
+    let gcode = "";
+
+    if (operacion === "escuadrado") {
+        gcode = generarGCodeEscuadrado();
+    } else if (operacion === "planeado") {
+        gcode = generarGCodePlaneado(); 
+    } else {
+        gcode = "( SELECCIONE UNA OPERACION VALIDA )";
+    }
+
+    document.getElementById("consola").value = gcode;
+};
+
+// 4. Lógica para Generar Planeado / Refrentado
+function generarGCodePlaneado() {
+    // A. Lectura de Parámetros Generales
     const ceroXY = document.getElementById("ceroXY").value;
-    const tipoHerramienta = document.getElementById("tipoHerramienta").value;
-    const diametroTool = parseFloat(document.getElementById("diametroHerramienta").value) || 10;
-    const numTool = parseInt(document.getElementById("numHerramienta").value) || 1; 
-    const operacion = document.getElementById("operacion").value;
+    const S = document.getElementById("velocidad").value || "1200";
+    const zSeguridad = parseFloat(document.getElementById("zSeguridad").value) || 10.0;
+    const T = document.getElementById("numHerramienta").value || "1";
+    const diametro = parseFloat(document.getElementById("diametroHerramienta").value) || 50.0;
+    const radio = diametro / 2.0;
 
-    let lineasGCode = [];
-    
-    // ENCABEZADO ESTÁNDAR FANUC
-    lineasGCode.push("%"); 
-    lineasGCode.push(`O0001 (PROGRAMA GENERADO - PLANEADO)`);
-    lineasGCode.push(`(CERO XY: ${ceroXY.replace(/_/g, ' ').toUpperCase()})`);
-    lineasGCode.push(`(HERRAMIENTA: ${tipoHerramienta.replace(/_/g, ' ').toUpperCase()} D=${diametroTool}mm)`);
-    lineasGCode.push("");
-    
-    lineasGCode.push("G21 G40 G49 G80 G90 G54 (Seguridad: mm, absolutas, origen G54)");
-    lineasGCode.push("G91 G28 Z0.0 (Retorno al home de Z de la máquina)");
-    lineasGCode.push("");
-    
-    lineasGCode.push(`T${numTool} M06 (Llamado de herramienta)`);
-    lineasGCode.push(`M03 S${rpm} (Arranca husillo)`);
-    lineasGCode.push("G04 P2000 (Pausa de seguridad de 2 segundos)");
-    lineasGCode.push("");
-    
-    lineasGCode.push(`G90 G43 H${numTool} Z50.0 (Activa compensación de altura en Z50 seguro)`);
-    lineasGCode.push(""); 
+    // B. Lectura de Parámetros Específicos de Planeado
+    const anchoX = parseFloat(document.getElementById("anchoX").value) || 100.0;
+    const largoY = parseFloat(document.getElementById("largoY").value) || 80.0;
+    const zInicial = parseFloat(document.getElementById("zInicial").value) || 2.0;
+    const zFinal = parseFloat(document.getElementById("zFinal").value) || 0.0;
+    const pasadaZ = parseFloat(document.getElementById("pasadaZ").value) || 0.5;
+    const direccion = document.getElementById("direccionPlaneado").value; // 'horizontal' o 'vertical'
+    const estrategia = document.getElementById("estrategia").value; // 'zigzag', 'climb', 'conventional'
+    const F = document.getElementById("avanceF").value || "800";
 
-    // EVALUACIÓN DE LA OPERACIÓN SELECCIONADA
-    if (operacion === "planeado") {
-        const datosPlaneado = {
-            anchoX: parseFloat(document.getElementById("anchoX").value) || 0,
-            largoY: parseFloat(document.getElementById("largoY").value) || 0,
-            zInicial: parseFloat(document.getElementById("zInicial").value) || 0,
-            zFinal: parseFloat(document.getElementById("zFinal").value) || 0,
-            pasadaZ: parseFloat(document.getElementById("pasadaZ").value) || 1,
-            avanceF: parseFloat(document.getElementById("avanceF").value) || 500,
-            direccionPlaneado: document.getElementById("direccionPlaneado").value,
-            estrategia: document.getElementById("estrategia").value,
-            esquinaInicio: document.getElementById("esquinaInicio").value,
-            ceroXY,
-            diametroTool
-        };
+    // C. Límites del Bloque según Cero Pieza
+    let xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 
-        const codigoOperacion = window.calcularPlaneado(datosPlaneado);
-        lineasGCode = lineasGCode.concat(codigoOperacion);
-    } else {
-        lineasGCode.push(`(Operación [${operacion.toUpperCase()}] en desarrollo...)`);
+    switch (ceroXY) {
+        case "centro":
+            xMin = -anchoX / 2.0;
+            xMax = anchoX / 2.0;
+            yMin = -largoY / 2.0;
+            yMax = largoY / 2.0;
+            break;
+        case "esquina_sup_izq":
+            xMin = 0;
+            xMax = anchoX;
+            yMin = -largoY;
+            yMax = 0;
+            break;
+        case "esquina_inf_der":
+            xMin = -anchoX;
+            xMax = 0;
+            yMin = 0;
+            yMax = largoY;
+            break;
+        case "esquina_sup_der":
+            xMin = -anchoX;
+            xMax = 0;
+            yMin = -largoY;
+            yMax = 0;
+            break;
+        case "esquina_inf_izq":
+        default:
+            xMin = 0;
+            xMax = anchoX;
+            yMin = 0;
+            yMax = largoY;
+            break;
     }
 
-    // FIN DE PROGRAMA ESTÁNDAR FANUC
-    lineasGCode.push(""); 
-    lineasGCode.push("G00 Z50.0 M09 (Retracción de seguridad y apaga refrigerante)");
-    //lineasGCode.push("G91 G28 Z0.0 (Home de Z de la máquina)");
-    lineasGCode.push("M05 (Apaga husillo)");
-    lineasGCode.push("M30 (Fin de programa)");
-    lineasGCode.push("%"); 
+    // D. Cálculo de Pasadas Laterales (Solape del 65% del diámetro)
+    const pasoLateral = diametro * 0.65;
+    const margenEntrada = radio + 5.0; // Salida/Entrada fuera de la pieza
 
-    document.getElementById("consola").value = lineasGCode.join("\n");
-};
+    let nc = [];
+    nc.push("%");
+    nc.push("O0002 (PLANEADO FRESADORA FANUC)");
+    nc.push(`( HERRAMIENTA T${T} - DIA ${diametro}MM )`);
+    nc.push("G21 G40 G80 G90");
+    nc.push(`T${T} M06`);
+    nc.push(`G54 G00 S${S} M03`);
+    nc.push(`G43 H${T} Z${zSeguridad.toFixed(1)}`);
+    nc.push("");
 
-// ==========================================
-// 3. MOTOR MATEMÁTICO DE TRAYECTORIA REAL
-// ==========================================
-window.calcularPlaneado = function(datos) {
-    const {
-        anchoX, largoY, zInicial, zFinal, pasadaZ, avanceF,
-        direccionPlaneado, estrategia, esquinaInicio, ceroXY, diametroTool
-    } = datos;
-
-    let lineas = [];
-    lineas.push("(--- INICIO DE OPERACIÓN: PLANEADO OPTIMIZADO REAL ---)");
-
-    // 1. Límites físicos del material según el Cero XY
-    let xMin, xMax, yMin, yMax;
-    if (ceroXY === "centro") {
-        xMin = -(anchoX / 2); xMax = anchoX / 2;
-        yMin = -(largoY / 2); yMax = largoY / 2;
-    } else if (ceroXY === "esquina_sup_izq" || ceroXY === "esquina_sup_der") {
-        xMin = 0; xMax = anchoX;
-        yMin = -largoY; yMax = 0;
-    } else { 
-        xMin = 0; xMax = anchoX;
-        yMin = 0; yMax = largoY;
-    }
-
-    const MARGEN_FIJO = 5.0; 
-    const pasoLateral = diametroTool * 0.7; // Solape del 70%
-    let pasadas = []; 
-    
-    // 2. Cálculo del trazado de pasadas en el plano XY
-    if (direccionPlaneado === "horizontal" || direccionPlaneado === "paralelo_x") {
-        // --- PLANEADO EN X (PASO LATERAL EN Y) ---
-        const esSuperior = esquinaInicio.includes("sup") || esquinaInicio.includes("superior");
-        
-        const yPrimeraPasada = esSuperior 
-            ? (yMax - pasoLateral + (diametroTool / 2)) 
-            : (yMin + pasoLateral - (diametroTool / 2));
-            
-        const signoY = esSuperior ? -1 : 1;
-        const numPasadas = Math.ceil(largoY / pasoLateral) || 1;
-        
-        const xStartLargo = xMin - MARGEN_FIJO - (diametroTool / 2);
-        const xEndLargo = xMax + MARGEN_FIJO + (diametroTool / 2);
-
-        for (let i = 0; i < numPasadas; i++) {
-            let yPos = yPrimeraPasada + (signoY * i * pasoLateral);
-            
-            if (i === numPasadas - 1 && numPasadas > 1) {
-                yPos = esSuperior 
-                    ? (yMin + pasoLateral - (diametroTool / 2)) 
-                    : (yMax - pasoLateral + (diametroTool / 2));
-            }
-
-            let xIn = xStartLargo;
-            let xOut = xEndLargo;
-            
-            if ((estrategia === "zigzag" && i % 2 !== 0) || estrategia === "conventional") {
-                xIn = xEndLargo;
-                xOut = xStartLargo;
-            }
-
-            pasadas.push({ xIni: xIn, xFin: xOut, yVal: yPos, ejeLargo: "X" });
-        }
-    } else {
-        // --- PLANEADO EN Y (PASO LATERAL EN X) ---
-        const esDerecha = esquinaInicio.includes("der") || esquinaInicio.includes("derecha");
-        
-        const xPrimeraPasada = esDerecha 
-            ? (xMax - pasoLateral + (diametroTool / 2)) 
-            : (xMin + pasoLateral - (diametroTool / 2));
-            
-        const signoX = esDerecha ? -1 : 1;
-        const numPasadas = Math.ceil(anchoX / pasoLateral) || 1;
-        
-        const yStartLargo = yMin - MARGEN_FIJO - (diametroTool / 2);
-        const yEndLargo = yMax + MARGEN_FIJO + (diametroTool / 2);
-
-        for (let i = 0; i < numPasadas; i++) {
-            let xPos = xPrimeraPasada + (signoX * i * pasoLateral);
-            
-            if (i === numPasadas - 1 && numPasadas > 1) {
-                xPos = esDerecha 
-                    ? (xMin + pasoLateral - (diametroTool / 2)) 
-                    : (xMax - pasoLateral + (diametroTool / 2));
-            }
-
-            let yIn = yStartLargo;
-            let yOut = yEndLargo;
-            
-            if ((estrategia === "zigzag" && i % 2 !== 0) || estrategia === "conventional") {
-                yIn = yEndLargo;
-                yOut = yStartLargo;
-            }
-
-            pasadas.push({ yIni: yIn, yFin: yOut, xVal: xPos, ejeLargo: "Y" });
-        }
-    }
-
-    // 3. Cálculo de los niveles de profundidad en Z
-    const sobreMaterialTotal = Math.max(0, zInicial - zFinal);
-    let profundidades = [];
-
-    if (sobreMaterialTotal > 0 && pasadaZ > 0) {
-        let profundidadAcumulada = 0;
-        while (profundidadAcumulada < sobreMaterialTotal) {
-            let siguientePasada = pasadaZ;
-            if (profundidadAcumulada + siguientePasada > sobreMaterialTotal) {
-                siguientePasada = sobreMaterialTotal - profundidadAcumulada;
-            }
-            profundidades.push(siguientePasada);
-            profundidadAcumulada += siguientePasada;
-        }
-    } else {
-        profundidades.push(0); // Pasada única si Z inicial y final son iguales
-    }
-
-    // 4. Bucle principal de profundidad (Z) y generación de código G
+    // E. Bucle por Profundidad (Z)
     let zActual = zInicial;
-    const zSeguridad = Math.max(zInicial + 5.0, 10.0); // Retracción adaptada al bruto
+    const pasoZAbs = Math.abs(pasadaZ);
 
-    for (let iZ = 0; iZ < profundidades.length; iZ++) {
-        const profCorte = profundidades[iZ];
-        zActual -= profCorte;
+    nc.push("( --- INICIO DE PLANEADO --- )");
 
-        lineas.push(`(--- NIVEL DE PROFUNDIDAD Z = ${zActual.toFixed(3)} ---)`);
+    while (zActual > zFinal) {
+        zActual -= pasoZAbs;
+        if (zActual < zFinal) zActual = zFinal;
 
-        pasadas.forEach((p, index) => {
-            if (p.ejeLargo === "X") {
-                if (index === 0) {
-                    // Posicionamiento de inicio de capa
-                    lineas.push(`G00 X${p.xIni.toFixed(3)} Y${p.yVal.toFixed(3)}`);
-                    lineas.push(`G01 Z${zActual.toFixed(3)} F${avanceF} (Penetración inicial)`);
-                } else if (estrategia === "zigzag") {
-                    // Paso lateral en Y en rápido (fresa libre en el aire)
-                    lineas.push(`G00 Y${p.yVal.toFixed(3)} (Paso lateral libre en Y)`);
+        nc.push(`( PASADA Z = ${zActual.toFixed(3)} )`);
+
+        if (direccion === "horizontal") {
+            // Pasadas a lo largo de X
+            let yPos = yMin + radio * 0.8;
+            let direccionX = 1; // 1 = Hacia la derecha, -1 = Hacia la izquierda
+
+            // Posicionamiento de inicio
+            nc.push(`G00 X${(xMin - margenEntrada).toFixed(3)} Y${yPos.toFixed(3)}`);
+            nc.push(`G01 Z${zActual.toFixed(3)} F${Math.round(F / 2)}`);
+
+            while (yPos <= yMax + (radio * 0.2)) {
+                if (direccionX === 1) {
+                    nc.push(`G01 X${(xMax + margenEntrada).toFixed(3)} Y${yPos.toFixed(3)} F${F}`);
                 } else {
-                    // Retorno para Unidireccional
-                    lineas.push(`G00 X${p.xIni.toFixed(3)} Y${p.yVal.toFixed(3)}`);
-                    lineas.push(`G01 Z${zActual.toFixed(3)} F${avanceF}`);
+                    nc.push(`G01 X${(xMin - margenEntrada).toFixed(3)} Y${yPos.toFixed(3)} F${F}`);
                 }
 
-                // Pasada principal de mecanizado
-                lineas.push(`G01 X${p.xFin.toFixed(3)} F${avanceF}`);
+                yPos += pasoLateral;
 
-            } else {
-                // Lógica para planeado a lo largo del eje Y
-                if (index === 0) {
-                    lineas.push(`G00 X${p.xVal.toFixed(3)} Y${p.yIni.toFixed(3)}`);
-                    lineas.push(`G01 Z${zActual.toFixed(3)} F${avanceF} (Penetración inicial)`);
-                } else if (estrategia === "zigzag") {
-                    lineas.push(`G00 X${p.xVal.toFixed(3)} (Paso lateral libre en X)`);
+                if (yPos <= yMax + (radio * 0.2)) {
+                    if (estrategia === "zigzag") {
+                        // Cambia de Y y se invierte el sentido
+                        direccionX *= -1;
+                        nc.push(`G01 Y${yPos.toFixed(3)}`);
+                    } else {
+                        // Retorno seguro fuera de la pieza (Climb / Convencional)
+                        nc.push(`G00 Z${zSeguridad.toFixed(1)}`);
+                        nc.push(`G00 X${(xMin - margenEntrada).toFixed(3)} Y${yPos.toFixed(3)}`);
+                        nc.push(`G01 Z${zActual.toFixed(3)} F${Math.round(F / 2)}`);
+                    }
+                }
+            }
+        } else {
+            // Pasadas a lo largo de Y
+            let xPos = xMin + radio * 0.8;
+            let direccionY = 1;
+
+            nc.push(`G00 X${xPos.toFixed(3)} Y${(yMin - margenEntrada).toFixed(3)}`);
+            nc.push(`G01 Z${zActual.toFixed(3)} F${Math.round(F / 2)}`);
+
+            while (xPos <= xMax + (radio * 0.2)) {
+                if (direccionY === 1) {
+                    nc.push(`G01 X${xPos.toFixed(3)} Y${(yMax + margenEntrada).toFixed(3)} F${F}`);
                 } else {
-                    lineas.push(`G00 X${p.xVal.toFixed(3)} Y${p.yIni.toFixed(3)}`);
-                    lineas.push(`G01 Z${zActual.toFixed(3)} F${avanceF}`);
+                    nc.push(`G01 X${xPos.toFixed(3)} Y${(yMin - margenEntrada).toFixed(3)} F${F}`);
                 }
 
-                lineas.push(`G01 Y${p.yFin.toFixed(3)} F${avanceF}`);
-            }
+                xPos += pasoLateral;
 
-            // Retracción entre pasadas en modo Unidireccional
-            if (estrategia !== "zigzag" && index < pasadas.length - 1) {
-                lineas.push(`G00 Z${zSeguridad.toFixed(3)} (Retracción para retorno en vacío)`);
+                if (xPos <= xMax + (radio * 0.2)) {
+                    if (estrategia === "zigzag") {
+                        direccionY *= -1;
+                        nc.push(`G01 X${xPos.toFixed(3)}`);
+                    } else {
+                        nc.push(`G00 Z${zSeguridad.toFixed(1)}`);
+                        nc.push(`G00 X${xPos.toFixed(3)} Y${(yMin - margenEntrada).toFixed(3)}`);
+                        nc.push(`G01 Z${zActual.toFixed(3)} F${Math.round(F / 2)}`);
+                    }
+                }
             }
+        }
+
+        nc.push(`G00 Z${zSeguridad.toFixed(1)}`);
+    }
+
+    // F. Cierre
+    nc.push("");
+    nc.push("( --- FIN DE PROGRAMA --- )");
+    nc.push("M05");
+    nc.push("G91 G28 Z0.0");
+    nc.push("G28 X0.0 Y0.0");
+    nc.push("M30");
+    nc.push("%");
+
+    return nc.join("\n");
+}
+
+// 3. Lógica para Generar Escuadrado / Contorneado
+function generarGCodeEscuadrado() {
+    // A. Lectura de Parámetros Generales
+    const ceroXY = document.getElementById("ceroXY").value;
+    const S = document.getElementById("velocidad").value || "1200";
+    const zSeguridad = parseFloat(document.getElementById("zSeguridad").value) || 10.0;
+    const T = document.getElementById("numHerramienta").value || "1";
+    const diametro = parseFloat(document.getElementById("diametroHerramienta").value) || 10.0;
+    const radio = diametro / 2.0;
+
+    // B. Lectura de Parámetros de Escuadrado
+    const tipoPerfil = document.getElementById("tipoPerfil") ? document.getElementById("tipoPerfil").value : "exterior";
+    const largoX = parseFloat(document.getElementById("largoX_esc").value) || 100.0;
+    const anchoY = parseFloat(document.getElementById("anchoY_esc").value) || 80.0;
+    const zProfundidadTotal = parseFloat(document.getElementById("zProfundidadTotal").value) || -15.0;
+    const pasadaZ = parseFloat(document.getElementById("pasadaZ_esc").value) || 2.0;
+    const radioEsquina = parseFloat(document.getElementById("radioEsquina")?.value) || 0.0;
+    const ladosMecanizar = document.getElementById("ladosMecanizar").value; // "todos", "caras_y", "caras_x", "lado_x_pos", etc.
+    const demasia = parseFloat(document.getElementById("demasiaLateral")?.value) || 0.0;
+    const F = document.getElementById("avanceF_esc").value || "500";
+    const estrategia = document.getElementById("estrategiaMecanizado")?.value || "niveles"; // "niveles" o "zonas"
+
+    // C. Definición de Límites según Cero Pieza
+    let xMin = 0, xMax = 0, yMin = 0, yMax = 0;
+    switch (ceroXY) {
+        case "centro":
+            xMin = -largoX / 2.0; xMax = largoX / 2.0;
+            yMin = -anchoY / 2.0; yMax = anchoY / 2.0;
+            break;
+        case "esquina_sup_izq":
+            xMin = 0; xMax = largoX;
+            yMin = -anchoY; yMax = 0;
+            break;
+        case "esquina_inf_der":
+            xMin = -largoX; xMax = 0;
+            yMin = 0; yMax = anchoY;
+            break;
+        case "esquina_sup_der":
+            xMin = -largoX; xMax = 0;
+            yMin = -anchoY; yMax = 0;
+            break;
+        case "esquina_inf_izq":
+        default:
+            xMin = 0; xMax = largoX;
+            yMin = 0; yMax = anchoY;
+            break;
+    }
+
+    // D. Offsets y Posiciones de Seguridad afuera del material
+    const offset = (tipoPerfil === "exterior") ? (radio + demasia) : -(radio + demasia);
+    const xMinT = xMin - offset;
+    const xMaxT = xMax + offset;
+    const yMinT = yMin - offset;
+    const yMaxT = yMax + offset;
+
+    // Distancia pasante para arrancar y terminar 100% afuera de la pieza
+    const margenEntradaSalida = radio + 5.0; 
+    const xMinPasante = xMin - margenEntradaSalida;
+    const xMaxPasante = xMax + margenEntradaSalida;
+    const yMinPasante = yMin - margenEntradaSalida;
+    const yMaxPasante = yMax + margenEntradaSalida;
+
+    // E. Encabezado Fanuc Corregido
+    let nc = [];
+    nc.push("%");
+    nc.push("O0001 (ESCUADRADO Y FRENTEADO FANUC)");
+    nc.push(`( HERRAMIENTA T${T} - DIA ${diametro}MM )`);
+    nc.push("G21 G40 G80 G90 G54 G00");
+    nc.push(`T${T} M06`);
+    nc.push(`S${S} M03`);
+    nc.push(`G43 H${T} Z${zSeguridad.toFixed(1)}`);
+    nc.push("");
+
+    // F. Generación de Lista de Profundidades (Z)
+    const profAbs = Math.abs(zProfundidadTotal);
+    const pasoZAbs = Math.abs(pasadaZ);
+    let profsZ = [];
+    let zAcum = 0.0;
+    while (zAcum > -profAbs) {
+        zAcum -= pasoZAbs;
+        if (zAcum < -profAbs) zAcum = -profAbs;
+        profsZ.push(zAcum);
+    }
+
+    // G. Funciones Auxiliares para Generar Trayectorias de Cada Operación
+    function ejecutarCaraYInferior(zVal) {
+        let lineas = [];
+        lineas.push(`( LADO Y- / INFERIOR - Z = ${zVal.toFixed(3)} )`);
+        lineas.push(`G00 X${xMinPasante.toFixed(3)} Y${yMinT.toFixed(3)}`);
+        lineas.push(`G01 Z${zVal.toFixed(3)} F${Math.round(F / 2)}`);
+        lineas.push(`G01 X${xMaxPasante.toFixed(3)} F${F}`);
+        lineas.push(`G00 Z${zSeguridad.toFixed(1)}`);
+        return lineas;
+    }
+
+    function ejecutarCaraYSuperior(zVal) {
+        let lineas = [];
+        lineas.push(`( LADO Y+ / SUPERIOR - Z = ${zVal.toFixed(3)} )`);
+        lineas.push(`G00 X${xMaxPasante.toFixed(3)} Y${yMaxT.toFixed(3)}`);
+        lineas.push(`G01 Z${zVal.toFixed(3)} F${Math.round(F / 2)}`);
+        lineas.push(`G01 X${xMinPasante.toFixed(3)} F${F}`);
+        lineas.push(`G00 Z${zSeguridad.toFixed(1)}`);
+        return lineas;
+    }
+
+    function ejecutarCaraXIzquierda(zVal) {
+        let lineas = [];
+        lineas.push(`( LADO X- / IZQUIERDO - Z = ${zVal.toFixed(3)} )`);
+        lineas.push(`G00 X${xMinT.toFixed(3)} Y${yMinPasante.toFixed(3)}`);
+        lineas.push(`G01 Z${zVal.toFixed(3)} F${Math.round(F / 2)}`);
+        lineas.push(`G01 Y${yMaxPasante.toFixed(3)} F${F}`);
+        lineas.push(`G00 Z${zSeguridad.toFixed(1)}`);
+        return lineas;
+    }
+
+    function ejecutarCaraXDerecha(zVal) {
+        let lineas = [];
+        lineas.push(`( LADO X+ / DERECHO - Z = ${zVal.toFixed(3)} )`);
+        lineas.push(`G00 X${xMaxT.toFixed(3)} Y${yMaxPasante.toFixed(3)}`);
+        lineas.push(`G01 Z${zVal.toFixed(3)} F${Math.round(F / 2)}`);
+        lineas.push(`G01 Y${yMinPasante.toFixed(3)} F${F}`);
+        lineas.push(`G00 Z${zSeguridad.toFixed(1)}`);
+        return lineas;
+    }
+
+    function ejecutarContornoCompleto(zVal) {
+        let lineas = [];
+        lineas.push(`( CONTORNO COMPLETO - Z = ${zVal.toFixed(3)} )`);
+        lineas.push(`G00 X${xMinT.toFixed(3)} Y${yMinPasante.toFixed(3)}`);
+        lineas.push(`G01 Z${zVal.toFixed(3)} F${Math.round(F / 2)}`);
+
+        if (radioEsquina > 0.0) {
+            const rE = radioEsquina;
+            lineas.push(`G01 Y${(yMaxT - rE).toFixed(3)} F${F}`);
+            lineas.push(`G02 X${(xMinT + rE).toFixed(3)} Y${yMaxT.toFixed(3)} R${rE.toFixed(3)}`);
+            lineas.push(`G01 X${(xMaxT - rE).toFixed(3)}`);
+            lineas.push(`G02 X${xMaxT.toFixed(3)} Y${(yMaxT - rE).toFixed(3)} R${rE.toFixed(3)}`);
+            lineas.push(`G01 Y${(yMinT + rE).toFixed(3)}`);
+            lineas.push(`G02 X${(xMaxT - rE).toFixed(3)} Y${yMinT.toFixed(3)} R${rE.toFixed(3)}`);
+            lineas.push(`G01 X${(xMinT + rE).toFixed(3)}`);
+            lineas.push(`G02 X${xMinT.toFixed(3)} Y${(yMinT + rE).toFixed(3)} R${rE.toFixed(3)}`);
+        } else {
+            lineas.push(`G01 Y${yMaxT.toFixed(3)} F${F}`);
+            lineas.push(`G01 X${xMaxT.toFixed(3)}`);
+            lineas.push(`G01 Y${yMinT.toFixed(3)}`);
+            lineas.push(`G01 X${xMinT.toFixed(3)}`);
+        }
+        lineas.push(`G00 Z${zSeguridad.toFixed(1)}`);
+        return lineas;
+    }
+
+    // H. Ejecución de la Estrategia (Niveles vs Zonas)
+    nc.push(`( --- ESTRATEGIA: ${estrategia.toUpperCase()} --- )`);
+
+    if (estrategia === "niveles") {
+        // En cada nivel Z, realiza las caras seleccionadas
+        profsZ.forEach(zVal => {
+            nc.push(`\n( === PASADA NIVELES Z = ${zVal.toFixed(3)} === )`);
+            if (ladosMecanizar === "todos") nc.push(...ejecutarContornoCompleto(zVal));
+            if (ladosMecanizar === "caras_y" || ladosMecanizar === "lado_y_neg") nc.push(...ejecutarCaraYInferior(zVal));
+            if (ladosMecanizar === "caras_y" || ladosMecanizar === "lado_y_pos") nc.push(...ejecutarCaraYSuperior(zVal));
+            if (ladosMecanizar === "caras_x" || ladosMecanizar === "lado_x_neg") nc.push(...ejecutarCaraXIzquierda(zVal));
+            if (ladosMecanizar === "caras_x" || ladosMecanizar === "lado_x_pos") nc.push(...ejecutarCaraXDerecha(zVal));
         });
-
-        // Despeje de Z al terminar una capa completa si quedan más capas
-        if (iZ < profundidades.length - 1) {
-            lineas.push(`G00 Z${zSeguridad.toFixed(3)} (Despeje para reposicionar Z)`);
+    } else {
+        // Por Zonas: Realiza una cara completa hasta el fondo antes de ir a la siguiente
+        nc.push(`\n( === ESTRATEGIA POR ZONAS === )`);
+        if (ladosMecanizar === "todos") {
+            profsZ.forEach(zVal => nc.push(...ejecutarContornoCompleto(zVal)));
+        }
+        if (ladosMecanizar === "caras_y" || ladosMecanizar === "lado_y_neg") {
+            nc.push(`( --- ZONA: CARA Y- --- )`);
+            profsZ.forEach(zVal => nc.push(...ejecutarCaraYInferior(zVal)));
+        }
+        if (ladosMecanizar === "caras_y" || ladosMecanizar === "lado_y_pos") {
+            nc.push(`( --- ZONA: CARA Y+ --- )`);
+            profsZ.forEach(zVal => nc.push(...ejecutarCaraYSuperior(zVal)));
+        }
+        if (ladosMecanizar === "caras_x" || ladosMecanizar === "lado_x_neg") {
+            nc.push(`( --- ZONA: CARA X- --- )`);
+            profsZ.forEach(zVal => nc.push(...ejecutarCaraXIzquierda(zVal)));
+        }
+        if (ladosMecanizar === "caras_x" || ladosMecanizar === "lado_x_pos") {
+            nc.push(`( --- ZONA: CARA X+ --- )`);
+            profsZ.forEach(zVal => nc.push(...ejecutarCaraXDerecha(zVal)));
         }
     }
 
-    lineas.push("(--- FIN DE OPERACIÓN: PLANEADO ---)");
-    return lineas;
-};
+    // I. Cierre del Programa Fanuc
+    nc.push("");
+    nc.push("( --- FIN DE PROGRAMA --- )");
+    nc.push(`G00 Z${zSeguridad.toFixed(1)}`);
+    nc.push("M05");
+    nc.push("G91 G28 Z0.0");
+    nc.push("G28 X0.0 Y0.0");
+    nc.push("M30");
+    nc.push("%");
+
+    return nc.join("\n");
+}

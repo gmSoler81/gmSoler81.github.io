@@ -18,6 +18,7 @@
             <option value="" disabled selected>Selecciona una operación...</option>
             <option value="planeado">Planeado / Refrentado</option>
             <option value="escuadrado">Escuadrado / Contorneado</option>
+            
             <option value="perforar">Perforado / Ciclos</option>
         </select>
 
@@ -31,11 +32,17 @@
                         <option value="esquina_inf_izq" selected>Esquina inferior izquierda (X0 Y0)</option>
                         <option value="centro">Centro de la pieza (X0 Y0)</option>
                         <option value="esquina_sup_izq">Esquina superior izquierda (X0 Y0)</option>
+                        <option value="esquina_inf_der">Esquina inferior derecha (X0 Y0)</option>
+                        <option value="esquina_sup_der">Esquina superior derecha (X0 Y0)</option>
                     </select>
                 </div>
                 <div>
                     <label for="velocidad">Velocidad del Husillo (S - RPM)</label>
                     <input type="number" id="velocidad" value="1200">
+                </div>
+                <div>
+                    <label for="zSeguridad">Z de Seguridad (mm)</label>
+                    <input type="number" id="zSeguridad" value="10.0" step="0.1">
                 </div>
             </div>
 
@@ -129,10 +136,80 @@
                 </div>
             </div>
 
-            <!-- OTROS CAMPOS EN DESARROLLO (Vacíos por ahora) -->
-            <div id="campos-escuadrado" style="display: none;"></div>
+            <!-- CAMPOS ESPECÍFICOS DE ESCUADRADO / CONTORNEADO -->
+            <div id="campos-escuadrado" style="display: none;">
+                <h3>3. Parámetros de Escuadrado / Contorneado</h3>
+
+                <h4>Tipo de Perfil y Dimensiones Finales</h4>
+                <div class="grid">
+                    <div>
+                        <label for="tipoPerfil">Tipo de Mecanizado</label>
+                        <select id="tipoPerfil">
+                            <option value="exterior" selected>Exterior (Macho)</option>
+                            <option value="interior">Interior (Cajera / Ventana)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="largoX_esc">Largo Final en X (mm)</label>
+                        <input type="number" id="largoX_esc" value="100.0" step="0.1">
+                    </div>
+                    <div>
+                        <label for="anchoY_esc">Ancho Final en Y (mm)</label>
+                        <input type="number" id="anchoY_esc" value="80.0" step="0.1">
+                    </div>
+                </div>
+
+                <h4>Profundidad y Geometría</h4>
+                <div class="grid">
+                    <div>
+                        <label for="zProfundidadTotal">Profundidad Total Z (mm)</label>
+                        <input type="number" id="zProfundidadTotal" value="-15.0" step="0.1">
+                    </div>
+                    <div>
+                        <label for="pasadaZ_esc">Pasada por Profundidad ap (mm)</label>
+                        <input type="number" id="pasadaZ_esc" value="2.0" step="0.1">
+                    </div>
+                    <div>
+                        <label for="radioEsquina">Radio de Esquina R (mm) <small>(0 = 90°)</small></label>
+                        <input type="number" id="radioEsquina" value="0.0" step="0.1">
+                    </div>
+                </div>
+
+                <h4>Lados a Mecanizar y Sobrematerial</h4>
+                <div class="grid">
+                    <div>
+                        <label for="ladosMecanizar">Lados Activos</label>
+                        <select id="ladosMecanizar">
+                            <option value="todos" selected>🔲 Todos los lados (Contorno Completo)</option>
+                            <option value="x_mas">➡️ Lado X+ únicamente</option>
+                            <option value="x_menos">⬅️ Lado X- únicamente</option>
+                            <option value="y_mas">⬆️ Lado Y+ únicamente</option>
+                            <option value="y_menos">⬇️ Lado Y- únicamente</option>
+                            <option value="caras_x">↔️ Caras en X (X- y X+)</option>
+                            <option value="caras_y">↕️ Caras en Y (Y- y Y+)</option>
+                        </select>
+                    </div>
+                    <div>
+                    <label for="estrategiaMecanizado">Estrategia de Mecanizado:</label>
+<select id="estrategiaMecanizado">
+  <option value="niveles">Por Niveles (Completar capas en Z)</option>
+  <option value="zonas">Por Zonas (Completar cara hasta el fondo)</option>
+</select></div>
+                    <div>
+                        <label for="demasiaLateral">Sobrematerial / Demasía (mm)</label>
+                        <input type="number" id="demasiaLateral" value="0.0" step="0.1">
+                    </div>
+                    <div>
+                        <label for="avanceF_esc">Avance de Corte (F - mm/min)</label>
+                        <input type="number" id="avanceF_esc" value="500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- OTROS CAMPOS EN DESARROLLO -->
             <div id="campos-perforar" style="display: none;"></div>
 
+            <br>
             <button onclick="generarEstructuraBase()">Generar Código G</button>
         </section>
 
