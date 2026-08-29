@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -37,23 +35,112 @@
     <!-- Hero Principal -->
     <section class="hero">
     <div class="hero-content">
-        <h2>Capacitación CNC para equipos que producen de verdad.</h2>
-        <p>Más de 20 años al pie de la máquina. Formación técnica in-company, presencial u online, para operarios y programadores CNC en la industria metalmecánica.</p>
-    
+        <span class="badge-herramienta" style="margin-bottom:15px; display:inline-block;">🛠️ En desarrollo</span>
+        <h2>Estoy construyendo algo nuevo para el taller.</h2>
+        <p>Después de 23 años programando Fanuc y Siemens en planta, estoy desarrollando un generador de código G para torno y fresa, pensado para que programar sin errores no dependa de la experiencia del operario.</p>
+        <p>Todavía en desarrollo — si te interesa ser de los primeros en probarlo en tu empresa, dejame tu contacto.</p>
+
         <!-- Contenedor de botones -->
         <div class="hero-buttons">
-            <a href="https://wa.me/5493413145782?text=Hola!%20Vi%20tu%20web%20Industria%204.0.%20Me%20interesa%20consultar%20por:" 
-               class="btn-hero primary" target="_blank" 
-               rel="noopener noreferrer"> Consulta por tu curso -></a>
-            
-            <!-- Botón cambiado apuntando al Hub -->
-            <a href="generador/index.html" class="btn-hero secondary">⚡ Generador de Código G</a>
+            <a href="#aviso-generador" class="btn-hero primary">📋 Avisame cuando esté disponible</a>
+
+            <a href="https://wa.me/5493413145782?text=Hola!%20Vi%20tu%20web%20Industria%204.0.%20Me%20interesa%20consultar%20por%20el%20Generador%20de%20C%C3%B3digo%20G." 
+               class="btn-hero secondary" target="_blank" 
+               rel="noopener noreferrer">💬 Escribime ahora por WhatsApp</a>
         </div>
     </div>
 </section>
 </main>
 
-<!-- SECCIÓN CURSOS -->
+    <!-- Selector de Mundos -->
+    <section class="selector-mundos">
+        <div class="intro-texto">
+            <h3>Bienvenido al Hub de Manufactura Avanzada</h3>
+            <p>Seleccioná el área en la que podemos ayudarte hoy:</p>
+        </div>
+
+        <div class="contenedor-opciones">
+            <!-- Opción SolGia -->
+            <div class="opcion-card solgia-bg">
+                <div class="overlay">
+                    <h3>SolGia</h3>
+                    <p>Consultoría Industrial & Capacitación CNC</p>
+                    <a href="#solgia" class="btn-opcion">Ver Soluciones CNC</a>
+                </div>
+            </div>
+
+            <!-- Opción Tu Mundo 3D -->
+            <div class="opcion-card mundo3d-bg">
+                <div class="overlay">
+                    <h3>Tu Mundo 3D</h3>
+                    <p>Diseño en Simens NX & Impresión 3D Profesional</p>
+                    <a href="#galeria" class="btn-opcion">Ver Proyectos 3D</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN EXCLUSIVA GENERADOR G-CODE -->
+<section id="seccion-generador" class="seccion-destacada-gcode">
+    <div class="contenedor-gcode">
+        <div class="info-gcode">
+            <span class="badge-herramienta">Herramienta Interactiva</span>
+            <h2>Generador de Código G</h2>
+            <p>Calculá parámetros de corte y generá bloques de programación CNC listos para usar en pie de máquina.</p>
+        </div>
+        <div class="accion-gcode">
+            <a href="generador/index.html" class="btn-gcode-principal">⚡ Abrir Generador CNC</a>
+        </div>
+    </div>
+</section>
+
+<!-- SECCIÓN AVISO GENERADOR: formulario + whatsapp -->
+<section id="aviso-generador" class="seccion-cursos">
+    <div class="contenedor-info">
+        <span class="badge">Todavía en desarrollo</span>
+        <h2 class="titulo-seccion">¿Querés ser de los primeros en probarlo?</h2>
+        <p class="subtitulo">Dejá tus datos y te aviso apenas esté listo para funcionar en planta. Si preferís resolverlo ya, escribime directo por WhatsApp.</p>
+
+        <div class="hero-buttons" style="justify-content:center; margin-top:20px;">
+            <a href="https://forms.gle/TU_LINK_DE_FORM" target="_blank" rel="noopener noreferrer" class="btn-hero primary">📋 Dejar mis datos</a>
+            <a href="https://wa.me/5493413145782?text=Hola!%20Vi%20tu%20web%20Industria%204.0.%20Me%20interesa%20el%20Generador%20de%20C%C3%B3digo%20G." target="_blank" rel="noopener noreferrer" class="btn-hero secondary">💬 Escribime ahora por WhatsApp</a>
+        </div>
+    </div>
+</section>
+
+    <section id="perfil" class="seccion-perfil">
+    <div class="contenedor-perfil">
+        <div class="foto-perfil">
+            <!-- Aquí iría una foto tuya trabajando con el CNC o la impresora -->
+            <img src="img/mi_foto.png" alt="Perfil Profesional">
+        </div>
+        <div class="texto-perfil">
+            <h2>Trayectoria Profesional</h2>
+            <p><strong>Programador y Operador de CNC</strong> con 23 años de experiencia en la industria metalúrgica. Actualmente en planta en San Diego, donde trabajo hace 15 años.</p>
+            <p>Especialista en controles Fanuc, ISO y diseño avanzado en <strong>Siemens NX</strong>. Actualmente cursando Diplomatura en <strong>Industria 4.0 (UTN)</strong> para liderar la transformación digital en talleres y fábricas.</p>
+            
+            <div class="skills">
+                <span>#CNC</span> <span>#NX</span> <span>#Impresion3D</span> <span>#Industria4.0</span> <span>#DocenciaTecnica</span>
+            </div>
+            
+            <a href="Gustavo-Soler-2026.pdf" class="btn-cv" target="_blank">Descargar CV (PDF)</a>
+        </div>
+    </div>
+</section>
+
+
+
+<section id="galeria" class="contenedor-galeria">
+    <h2 class="titulo-seccion">Portfolio Tu Mundo 3D</h2>
+    
+    <div id="contenedor-proyectos" class="grid-galeria"></div>
+</section>
+
+
+
+
+
+<!-- SECCIÓN CURSOS (bajada de jerarquía, sin actividad reciente) -->
 <section id="cursos" class="seccion-cursos">
     <div class="contenedor-info">
         <span class="badge">Formación In-Company</span>
@@ -102,87 +189,13 @@
     </div>
 </section>
 
-    <!-- Selector de Mundos -->
-    <section class="selector-mundos">
-        <div class="intro-texto">
-            <h3>Bienvenido al Hub de Manufactura Avanzada</h3>
-            <p>Seleccioná el área en la que podemos ayudarte hoy:</p>
-        </div>
-
-        <div class="contenedor-opciones">
-            <!-- Opción SolGia -->
-            <div class="opcion-card solgia-bg">
-                <div class="overlay">
-                    <h3>SolGia</h3>
-                    <p>Consultoría Industrial & Capacitación CNC</p>
-                    <a href="#solgia" class="btn-opcion">Ver Soluciones CNC</a>
-                </div>
-            </div>
-
-            <!-- Opción Tu Mundo 3D -->
-            <div class="opcion-card mundo3d-bg">
-                <div class="overlay">
-                    <h3>Tu Mundo 3D</h3>
-                    <p>Diseño en Simens NX & Impresión 3D Profesional</p>
-                    <a href="#galeria" class="btn-opcion">Ver Proyectos 3D</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECCIÓN EXCLUSIVA GENERADOR G-CODE -->
-<section id="seccion-generador" class="seccion-destacada-gcode">
-    <div class="contenedor-gcode">
-        <div class="info-gcode">
-            <span class="badge-herramienta">Herramienta Interactiva</span>
-            <h2>Generador de Código G</h2>
-            <p>Calculá parámetros de corte y generá bloques de programación CNC listos para usar en pie de máquina.</p>
-        </div>
-        <div class="accion-gcode">
-            <a href="generador/index.html" class="btn-gcode-principal">⚡ Abrir Generador CNC</a>
-        </div>
-    </div>
-</section>
-
-    <section id="perfil" class="seccion-perfil">
-    <div class="contenedor-perfil">
-        <div class="foto-perfil">
-            <!-- Aquí iría una foto tuya trabajando con el CNC o la impresora -->
-            <img src="img/mi_foto.png" alt="Perfil Profesional">
-        </div>
-        <div class="texto-perfil">
-            <h2>Trayectoria Profesional</h2>
-            <p><strong>Programador y Operador de CNC</strong> con más de 20 años de experiencia en la industria metalúrgica.</p>
-            <p>Especialista en controles Fanuc, ISO y diseño avanzado en <strong>Siemens NX</strong>. Actualmente cursando Diplomatura en <strong>Industria 4.0 (UTN)</strong> para liderar la transformación digital en talleres y fábricas.</p>
-            
-            <div class="skills">
-                <span>#CNC</span> <span>#NX</span> <span>#Impresion3D</span> <span>#Industria4.0</span> <span>#DocenciaTecnica</span>
-            </div>
-            
-            <a href="Gustavo Soler2026.pdf" class="btn-cv" target="_blank">Descargar CV (PDF)</a>
-        </div>
-    </div>
-</section>
-
-
-
-<section id="galeria" class="contenedor-galeria">
-    <h2 class="titulo-seccion">Portfolio Tu Mundo 3D</h2>
-    
-    <div id="contenedor-proyectos" class="grid-galeria"></div>
-</section>
-
-
-
-
-
 <section id="solgia" class="seccion-solgia">
 
 <div class="contenedor-info">
         <span class="badge">Consultoría Industrial</span>
         <h2 class="titulo-seccion">SolGia: Potenciando la Productividad</h2>
         <p class="subtitulo">
-            Más de 20 años de experiencia técnica  al servicio de la formación 
+            23 años de experiencia técnica al servicio de la formación 
             y la optimización de procesos CNC. 
         </p>
         
@@ -190,7 +203,7 @@
         
         <div class="franja-experiencia">
             <div class="dato">
-                <h4>+20 Años</h4>
+                <h4>23 Años</h4>
                 <p>En el Sector Metalmecánico </p>
             </div>
             <div class="dato">
@@ -221,16 +234,9 @@
             </div>
 
             <div class="recurso-card">
-                <i class="fas fa-play-circle"></i>
-                <h3>Video Tutoriales</h3>
-                <p>Tips rápidos al pie de máquina y demostraciones de mecanizado CNC.</p>
-                <a href="#" class="btn-descarga">Ir al Canal</a>
-            </div>
-
-            <div class="recurso-card">
                 <i class="fas fa-lightbulb"></i>
                 <h3>Consejos de Experto</h3>
-                <p>Secretos de puesta a punto y resolución de problemas tras 20 años en el sector.</p>
+                <p>Secretos de puesta a punto y resolución de problemas tras 23 años en el sector.</p>
                 <a href="#seccion-consejos-detalle" class="btn-descarga">Leer Tips</a>
             </div>
         </div>
@@ -240,38 +246,6 @@
         </div>
     </div>
 </section>
-
-<section id="test-seccion" class="contenedor-test">
-    <h2 class="titulo-seccion">Centro de Evaluación SolGia</h2>
-    
-    <div id="selector-test">
-        <p>Seleccioná tu especialidad para comenzar:</p>
-        <div class="grid-opciones">
-            <button onclick="iniciarTest('torno')" class="btn-opcion">🚀 Test de Torno CNC</button>
-            <button onclick="iniciarTest('fresa')" class="btn-opcion">⚙️ Test de Fresadora/Centro</button>
-        </div>
-    </div>
-
-    <div id="quiz-container" class="oculto">
-        <h3 id="tipo-test-titulo"></h3>
-        <div id="pregunta-container">
-            <p id="pregunta-texto"></p>
-            <div id="opciones-btns" class="grid-opciones"></div>
-        </div>
-    </div>
-
-    <div id="resultado-container" class="oculto">
-        <div id="certificado-mini">
-            <h3>Resultado: <span id="puntaje"></span></h3>
-            <p id="feedback-texto"></p>
-            <hr>
-            <h4>SOLGIA - CAPACITACIÓN TÉCNICA</h4>
-            <p>Gustavo Soler | Consultor Industrial</p>
-        </div>
-        <button onclick="location.reload()" class="btn-reiniciar">Volver al inicio</button>
-    </div>
-</section>
-
 
 <section class="seccion-apoyo">
     <div class="contenedor-info">
@@ -286,9 +260,6 @@
             <div class="contenedor-botones-pago">
                 <a href="https://mpago.la/26SWLMr" class="btn-pago btn-cafecito" target="_blank" rel="noopener">
                     <i class="fas fa-coffee"></i> Invitar un Cafecito
-                </a>
-                <a href="TU_LINK_DE_MP" class="btn-pago btn-mercadopago" target="_blank" rel="noopener">
-                    <i class="fas fa-credit-card"></i> Mercado Pago
                 </a>
             </div>
             <p class="nota-agradecimiento">¡Gracias por apoyar el crecimiento de <strong>Tu Mundo 3D</strong> y <strong>SolGia</strong>!</p>
