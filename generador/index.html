@@ -1,225 +1,138 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Código G Profesional</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GM-Mill Fanuc · Generador de código G</title>
+<link rel="stylesheet" href="styles.css">
 </head>
-<body class="container">
-    <header>
-        <h2>Asistente de Programación CNC</h2>
-    </header>
+<body>
+<header class="top"><h1>GM-Mill Fanuc</h1><p>Generador de código G para fresadoras Fanuc 0i / 16i / 18i / 21i / 31i</p></header>
+<main>
+<section class="card">
+  <h2>1. Pieza y cero pieza (G54)</h2>
+  <div class="grid">
+    <label>Largo X (mm)<input type="number" step="any" data-k="largo" value="100"></label>
+    <label>Ancho Y (mm)<input type="number" step="any" data-k="ancho" value="60"></label>
+    <label>Z sobrematerial (mm)<input type="number" step="any" data-k="zSobre" value="1"></label>
+    <label>Z acabado (mm)<input type="number" step="any" data-k="zAcabado" value="0"></label>
+  </div>
+  <p class="hint">Posición del G54 sobre la pieza (vista superior)</p>
+  <div id="matriz" class="matriz" role="group" aria-label="Posición del G54"></div>
+</section>
 
-    <main>
-        <!-- SELECCIÓN DE OPERACIÓN -->
-        <label for="operacion">Operación de Maquinado</label>
-        <select id="operacion" onchange="mostrarCamposOperacion()">
-            <option value="" disabled selected>Selecciona una operación...</option>
-            <option value="planeado">Planeado / Refrentado</option>
-            <option value="escuadrado">Escuadrado / Contorneado</option>
-            
-            <option value="perforar">Perforado / Ciclos</option>
-        </select>
+<section class="card">
+  <h2>2. Herramienta y avances</h2>
+  <div class="grid">
+    <label>Diámetro fresa/broca (mm)<input type="number" step="any" data-k="diam" value="10"></label>
+    <label>RPM (S)<input type="number" step="1" data-k="rpm" value="2500"></label>
+    <label>Avance plano F (mm/min)<input type="number" step="any" data-k="avance" value="400"></label>
+    <label>Avance Z Fz (mm/min)<input type="number" step="any" data-k="avanceZ" value="120"></label>
+    <label>Pasada en Z (mm)<input type="number" step="any" data-k="zPasada" value="2"></label>
+    <label>Z de seguridad (mm)<input type="number" step="any" data-k="zSeg" value="5"></label>
+    <label>Margen de seguridad (mm)<input type="number" step="any" data-k="margen" value="5"></label>
+    <label>Nº de programa (O)<input type="number" step="1" data-k="programa" value="1001"></label>
+    <label>Herramienta (T / H)<input type="number" step="1" data-k="herr" value="1"></label>
+  </div>
+</section>
 
-        <section id="seccion-parametros" style="display: none;">
-            <!-- CERO PIEZA Y CONDICIONES GENERALES -->
-            <h3>1. Configuración de Origen y Husillo</h3>
-            <div class="grid">
-                <div>
-                    <label for="ceroXY">Cero Pieza en XY (Origen)</label>
-                    <select id="ceroXY">
-                        <option value="esquina_inf_izq" selected>Esquina inferior izquierda (X0 Y0)</option>
-                        <option value="centro">Centro de la pieza (X0 Y0)</option>
-                        <option value="esquina_sup_izq">Esquina superior izquierda (X0 Y0)</option>
-                        <option value="esquina_inf_der">Esquina inferior derecha (X0 Y0)</option>
-                        <option value="esquina_sup_der">Esquina superior derecha (X0 Y0)</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="velocidad">Velocidad del Husillo (S - RPM)</label>
-                    <input type="number" id="velocidad" value="1200">
-                </div>
-                <div>
-                    <label for="zSeguridad">Z de Seguridad (mm)</label>
-                    <input type="number" id="zSeguridad" value="10.0" step="0.1">
-                </div>
-            </div>
+<section class="card">
+  <h2>3. Operación</h2>
+  <div class="ops">
+    <label><input type="radio" name="op" value="planeado" data-k="op"><span>Planeado</span></label>
+    <label><input type="radio" name="op" value="exterior" data-k="op"><span>Escuadrado exterior</span></label>
+    <label><input type="radio" name="op" value="cavidad" data-k="op"><span>Cavidad</span></label>
+    <label><input type="radio" name="op" value="perforado" data-k="op"><span>Perforado</span></label>
+  </div>
+</section>
 
-            <!-- CONFIGURACIÓN DE HERRAMIENTA -->
-            <h3>2. Datos de la Herramienta</h3>
-            <div class="grid">
-                <div>
-                    <label for="tipoHerramienta">Tipo de Herramienta</label>
-                    <select id="tipoHerramienta">
-                        <option value="fresa_plana" selected>Fresa Plana (End Mill)</option>
-                        <option value="fresa_planeadora">Fresa de Planear (Face Mill)</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="numHerramienta">Nº Herramienta (T)</label>
-                    <input type="number" id="numHerramienta" value="1" min="1" max="99">
-                </div>
-                <div>
-                    <label for="diametroHerramienta">Diámetro (Ø mm)</label>
-                    <input type="number" id="diametroHerramienta" value="10" min="0.1" step="0.1">
-                </div>
-            </div>
+<section class="card" data-vis="e.op" hidden>
+  <h2>4. Parámetros de la operación</h2>
 
-            <!-- CAMPOS ESPECÍFICOS DE PLANEADO -->
-            <div id="campos-planeado" style="display: none;">
-                <h3>3. Parámetros de Planeado</h3>
-                
-                <h4>Dimensiones del Bloque</h4>
-                <div class="grid">
-                    <div>
-                        <label for="anchoX">Ancho en X (mm)</label>
-                        <input type="number" id="anchoX" value="100">
-                    </div>
-                    <div>
-                        <label for="largoY">Largo en Y (mm)</label>
-                        <input type="number" id="largoY" value="80">
-                    </div>
-                </div>
+  <div class="grid" data-vis="e.op==='planeado'">
+    <label>Estrategia
+      <select data-k="estrategia">
+        <option value="directo">Una cara · a favor del corte</option>
+        <option value="zigzag">Una cara · zig-zag</option>
+        <option value="circular">Cara circular</option>
+      </select></label>
+    <label data-vis="e.estrategia==='circular'">Diámetro de la cara (mm)<input type="number" step="any" data-k="diamCirc" value="50"></label>
+    <label class="chk" data-vis="e.estrategia==='circular'"><input type="checkbox" data-k="agujero"> Tiene agujero central</label>
+  </div>
 
-                <h4>Profundidad y Niveles (Z0 = Superficie Final)</h4>
-                <div class="grid">
-                    <div>
-                        <label for="zInicial">Z Inicial (Sobrematerial - mm)</label>
-                        <input type="number" id="zInicial" value="2.0" step="0.1">
-                    </div>
-                    <div>
-                        <label for="zFinal">Z Final de este programa (mm)</label>
-                        <input type="number" id="zFinal" value="0.0" step="0.1">
-                    </div>
-                    <div>
-                        <label for="pasadaZ">Pasada por profundidad / Stepdown (mm)</label>
-                        <input type="number" id="pasadaZ" value="0.5" step="0.1">
-                    </div>
-                </div>
+  <div class="grid" data-vis="e.op==='exterior'">
+    <label>Tipo
+      <select data-k="extTipo"><option value="lateral">Escuadrado lateral</option><option value="circular">Lateral circular</option></select></label>
+    <div class="caras" data-vis="e.extTipo==='lateral'">
+      <span>Caras a mecanizar</span>
+      <label class="chk"><input type="checkbox" data-k="caraArriba" checked> Arriba (+Y)</label>
+      <label class="chk"><input type="checkbox" data-k="caraAbajo" checked> Abajo (−Y)</label>
+      <label class="chk"><input type="checkbox" data-k="caraDerecha" checked> Derecha (+X)</label>
+      <label class="chk"><input type="checkbox" data-k="caraIzquierda" checked> Izquierda (−X)</label>
+    </div>
+    <label data-vis="e.extTipo==='circular'">Diámetro de la pieza (mm)<input type="number" step="any" data-k="diamPieza" value="50"></label>
+  </div>
 
-                <h4>Estrategia y Dirección</h4>
-                <div class="grid">
-                    <div>
-                        <label for="direccionPlaneado">Dirección del Corte</label>
-                        <select id="direccionPlaneado">
-                            <option value="horizontal" selected>Horizontal (Pasadas largas en X)</option>
-                            <option value="vertical">Vertical (Pasadas largas en Y)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="estrategia">Estrategia de Trayectoria</label>
-                        <select id="estrategia">
-                            <option value="zigzag" selected>Zigzag Continuo (Ida y Vuelta)</option>
-                            <option value="climb">Solo Concordante (Climb - Retorno en G00)</option>
-                            <option value="conventional">Solo Convencional (Retorno en G00)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="esquinaInicio">Esquina de Inicio</label>
-                        <select id="esquinaInicio">
-                            <option value="inf_izq" selected>Inferior Izquierda</option>
-                            <option value="sup_izq">Superior Izquierda</option>
-                            <option value="inf_der">Inferior Derecha</option>
-                            <option value="sup_der">Superior Derecha</option>
-                        </select>
-                    </div>
-                </div>
+  <div data-vis="e.op==='cavidad'">
+    <div class="grid">
+      <label>Tipo
+        <select data-k="cavTipo"><option value="rect">Rectangular</option><option value="poligono">Poligonal</option><option value="oblonga">Oblonga / chavetero</option></select></label>
+      <label>Centro de la cavidad
+        <select data-k="cavCentro"><option value="macizo">Macizo · desbaste completo</option><option value="vacio">Ya vacío · solo contorno de pared</option></select></label>
+      <label data-vis="e.cavTipo==='rect'">Largo X (mm)<input type="number" step="any" data-k="largoC" value="40"></label>
+      <label data-vis="e.cavTipo==='rect'">Ancho Y (mm)<input type="number" step="any" data-k="anchoC" value="25"></label>
+      <label data-vis="e.cavTipo==='rect'">Punto de entrada
+        <select data-k="entrada"><option value="centro">Centro</option><option value="pared">Distancia a la pared izquierda</option></select></label>
+      <label data-vis="e.cavTipo==='rect'&&e.entrada==='pared'">Distancia a la pared (mm)<input type="number" step="any" data-k="distPared" value="8"></label>
+      <label data-vis="e.cavTipo==='poligono'">Radio del polígono (mm)<input type="number" step="any" data-k="radioPol" value="20"></label>
+      <label data-vis="e.cavTipo==='poligono'">Nº de lados<input type="number" step="1" data-k="lados" value="6"></label>
+      <label data-vis="e.cavTipo==='oblonga'">Largo total (mm)<input type="number" step="any" data-k="largoO" value="40"></label>
+      <label data-vis="e.cavTipo==='oblonga'">Ancho (mm)<input type="number" step="any" data-k="anchoO" value="16"></label>
+    </div>
+  </div>
 
-                <h4>Avance</h4>
-                <div class="grid">
-                    <div>
-                        <label for="avanceF">Avance de Corte (F - mm/min)</label>
-                        <input type="number" id="avanceF" value="800">
-                    </div>
-                    <div></div> <!-- Espacio para mantener el grid alineado -->
-                </div>
-            </div>
+  <div data-vis="e.op==='perforado'">
+    <div class="grid">
+      <label>Ciclo fijo
+        <select data-k="ciclo"><option value="G81">G81 · Taladrado simple</option><option value="G83">G83 · Picoteo</option></select></label>
+      <label>Distribución
+        <select data-k="distrib"><option value="circular">Circular</option><option value="manual">Puntos directos</option></select></label>
+      <label>Profundidad del agujero (mm)<input type="number" step="any" data-k="profAg" value="15"></label>
+      <label>Plano R (Z, mm)<input type="number" step="any" data-k="zR" value="2"></label>
+      <label data-vis="e.ciclo==='G83'">Picoteo Q (mm)<input type="number" step="any" data-k="q" value="4"></label>
+      <label data-vis="e.distrib==='circular'">Diámetro del patrón (mm)<input type="number" step="any" data-k="diamPatron" value="40"></label>
+      <label data-vis="e.distrib==='circular'">Cantidad de agujeros<input type="number" step="1" data-k="cantidad" value="6"></label>
+      <label data-vis="e.distrib==='circular'">Ángulo inicial (°)<input type="number" step="any" data-k="angIni" value="0"></label>
+      <label class="wide" data-vis="e.distrib==='manual'">Puntos X,Y (uno por línea, respecto al G54)
+        <textarea data-k="puntos" rows="4" placeholder="10,10&#10;30,10&#10;30,25"></textarea></label>
+    </div>
+  </div>
 
-            <!-- CAMPOS ESPECÍFICOS DE ESCUADRADO / CONTORNEADO -->
-            <div id="campos-escuadrado" style="display: none;">
-                <h3>3. Parámetros de Escuadrado / Contorneado</h3>
+  <div class="grid" data-vis="e.op==='exterior'||e.op==='cavidad'">
+    <label>Profundidad total Z (mm)<input type="number" step="any" data-k="prof" value="5"></label>
+    <label>Sobremedida XY (mm)<input type="number" step="any" data-k="demasia" value="0"></label>
+  </div>
 
-                <h4>Tipo de Perfil y Dimensiones Finales</h4>
-                <div class="grid">
-                    <div>
-                        <label for="tipoPerfil">Tipo de Mecanizado</label>
-                        <select id="tipoPerfil">
-                            <option value="exterior" selected>Exterior (Macho)</option>
-                            <option value="interior">Interior (Cajera / Ventana)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="largoX_esc">Largo Final en X (mm)</label>
-                        <input type="number" id="largoX_esc" value="100.0" step="0.1">
-                    </div>
-                    <div>
-                        <label for="anchoY_esc">Ancho Final en Y (mm)</label>
-                        <input type="number" id="anchoY_esc" value="80.0" step="0.1">
-                    </div>
-                </div>
+  <div class="grid" data-vis="(e.op==='planeado'&&e.estrategia==='circular')||(e.op==='exterior'&&e.extTipo==='circular')||e.op==='cavidad'||(e.op==='perforado'&&e.distrib==='circular')">
+    <label>Centro X (mm)<input type="number" step="any" data-k="cx" placeholder="centro de la pieza"></label>
+    <label>Centro Y (mm)<input type="number" step="any" data-k="cy" placeholder="centro de la pieza"></label>
+  </div>
+</section>
 
-                <h4>Profundidad y Geometría</h4>
-                <div class="grid">
-                    <div>
-                        <label for="zProfundidadTotal">Profundidad Total Z (mm)</label>
-                        <input type="number" id="zProfundidadTotal" value="-15.0" step="0.1">
-                    </div>
-                    <div>
-                        <label for="pasadaZ_esc">Pasada por Profundidad ap (mm)</label>
-                        <input type="number" id="pasadaZ_esc" value="2.0" step="0.1">
-                    </div>
-                    <div>
-                        <label for="radioEsquina">Radio de Esquina R (mm) <small>(0 = 90°)</small></label>
-                        <input type="number" id="radioEsquina" value="0.0" step="0.1">
-                    </div>
-                </div>
-
-                <h4>Lados a Mecanizar y Sobrematerial</h4>
-                <div class="grid">
-                    <div>
-                        <label for="ladosMecanizar">Lados Activos</label>
-                        <select id="ladosMecanizar">
-                            <option value="todos" selected>🔲 Todos los lados (Contorno Completo)</option>
-                            <option value="x_mas">➡️ Lado X+ únicamente</option>
-                            <option value="x_menos">⬅️ Lado X- únicamente</option>
-                            <option value="y_mas">⬆️ Lado Y+ únicamente</option>
-                            <option value="y_menos">⬇️ Lado Y- únicamente</option>
-                            <option value="caras_x">↔️ Caras en X (X- y X+)</option>
-                            <option value="caras_y">↕️ Caras en Y (Y- y Y+)</option>
-                        </select>
-                    </div>
-                    <div>
-                    <label for="estrategiaMecanizado">Estrategia de Mecanizado:</label>
-<select id="estrategiaMecanizado">
-  <option value="niveles">Por Niveles (Completar capas en Z)</option>
-  <option value="zonas">Por Zonas (Completar cara hasta el fondo)</option>
-</select></div>
-                    <div>
-                        <label for="demasiaLateral">Sobrematerial / Demasía (mm)</label>
-                        <input type="number" id="demasiaLateral" value="0.0" step="0.1">
-                    </div>
-                    <div>
-                        <label for="avanceF_esc">Avance de Corte (F - mm/min)</label>
-                        <input type="number" id="avanceF_esc" value="500">
-                    </div>
-                </div>
-            </div>
-
-            <!-- OTROS CAMPOS EN DESARROLLO -->
-            <div id="campos-perforar" style="display: none;"></div>
-
-            <br>
-            <button onclick="generarEstructuraBase()">Generar Código G</button>
-        </section>
-
-        <!-- CONSOLA DE SALIDA -->
-        <section>
-            <label for="consola">Código G Generado</label>
-            <textarea id="consola" rows="15" readonly style="font-family: monospace; font-size: 14px; background: #1e1e1e; color: #d4d4d4;"></textarea>
-        </section>
-    </main>
-
-    <script type="module" src="main.js"></script>
+<section class="card">
+  <h2>5. Código G</h2>
+  <ul id="errores" class="errores" role="alert"></ul>
+  <div class="acciones">
+    <button id="btnGenerar" class="btn" type="button">Generar código G</button>
+    <button id="btnCopiar" class="btn sec" type="button" disabled>Copiar</button>
+    <button id="btnDescargar" class="btn sec" type="button" disabled>Descargar .NC</button>
+  </div>
+  <pre id="salida" aria-live="polite">El programa generado aparecerá acá.</pre>
+</section>
+</main>
+<script src="js/state.js"></script>
+<script src="js/cad-math.js"></script>
+<script src="js/gcode-fanuc.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

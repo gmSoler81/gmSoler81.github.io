@@ -1,0 +1,41 @@
+/* GM-Mill Fanuc · tema oscuro "Azul Industrial" (sin amarillos) */
+:root{--bg:#0f172a;--panel:#1e293b;--panel2:#273449;--line:#3b4b63;--txt:#e6edf7;--mut:#94a3b8;
+--azul:#0d6efd;--azul2:#3b8bff;--acero:#64748b;--err:#f87171}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.5 "Segoe UI",system-ui,sans-serif}
+.top{padding:22px 24px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#14213d,#0f172a)}
+.top h1{margin:0;font-size:26px;letter-spacing:.5px;color:var(--azul2)}
+.top p{margin:2px 0 0;color:var(--mut)}
+main{max-width:920px;margin:0 auto;padding:20px 16px 60px;display:grid;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card h2{margin:0 0 14px;font-size:17px;color:var(--azul2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 16px;margin-bottom:12px}
+.grid:last-child{margin-bottom:0}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--mut)}
+input[type=number],select,textarea{background:var(--bg);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:9px 10px;font:inherit;width:100%}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--azul2);outline-offset:1px}
+.chk{flex-direction:row;align-items:center;gap:8px;color:var(--txt)}
+.wide{grid-column:1/-1}
+.caras{display:grid;gap:6px}
+.hint{color:var(--mut);font-size:13px;margin:6px 0}
+.matriz{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(3,44px);gap:6px;padding:10px;width:max-content;
+background:var(--panel2);border:2px solid var(--acero);border-radius:8px}
+.matriz button{border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--mut);cursor:pointer;font-size:12px}
+.matriz button:hover{border-color:var(--azul2)}
+.matriz button[aria-pressed=true]{background:var(--azul);border-color:var(--azul2);color:#fff;font-weight:600}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.ops label{flex-direction:row;color:var(--txt)}
+.ops input{position:absolute;opacity:0}
+.ops span{flex:1;text-align:center;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);cursor:pointer}
+.ops input:checked+span{background:var(--azul);border-color:var(--azul2);color:#fff;font-weight:600}
+.ops input:focus-visible+span{outline:2px solid var(--azul2)}
+.errores{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:6px}
+.errores li{background:#3b1d24;border:1px solid var(--err);color:#fecaca;border-radius:8px;padding:8px 12px;font-size:14px}
+.acciones{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.btn{background:var(--azul);color:#fff;border:0;border-radius:10px;padding:11px 20px;font:600 15px inherit;cursor:pointer}
+.btn:hover:not(:disabled){background:var(--azul2)}
+.btn.sec{background:var(--panel2);border:1px solid var(--azul)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+pre{margin:0;background:#0b1220;border:1px solid var(--line);border-radius:10px;padding:14px;max-height:460px;overflow:auto;
+font:13px/1.45 Consolas,"Courier New",monospace;color:#bcd3f5}
