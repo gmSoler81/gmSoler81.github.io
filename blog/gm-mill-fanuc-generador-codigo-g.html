@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM-Mill Fanuc: Generador Gratuito de Código G para Fresa | SolGia</title>
+    <meta name="description" content="Documentación técnica y guía de uso del generador web de código G para fresadoras Fanuc (0i, 16i, 18i, 21i y 31i) desarrollado por Gustavo Soler.">
+    <meta name="author" content="Gustavo Soler">
+
+    <!-- Estilos compartidos -->
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../css/articulo.css">
+</head>
+<body class="pagina-blog">
+
+    <!-- Header / Navegación principal -->
+    <header class="main-header">
+        <nav class="nav-container" aria-label="Principal">
+            <a href="../index.html" class="logo">SolGia &amp; Tu Mundo 3D</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../index.html#solgia">SolGia (CNC)</a></li>
+                <li><a href="../index.html#tumundo3d">Tu Mundo 3D</a></li>
+                <li><a href="../generador-cnc.html">Generador CNC</a></li>
+                <li><a href="index.html" class="active">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="articulo-container">
+
+        <header class="articulo-header">
+            <span class="articulo-tag">Herramienta CNC</span>
+            <h1 class="articulo-title">GM-Mill Fanuc: generador gratuito de código G para fresadoras Fanuc</h1>
+            <div class="articulo-meta">
+                <span>Por Gustavo Soler</span> &bull; <span>Lectura técnica: 4 min</span>
+            </div>
+        </header>
+
+        <div class="articulo-content">
+
+            <p><strong>GM-Mill Fanuc</strong> es una aplicación web que genera programas de código G completos para fresadoras con control Fanuc (series 0i, 16i, 18i, 21i y 31i). Está pensada para el programador de taller que necesita resolver operaciones frecuentes (planeados, escuadrados, cajeras y perforados) sin abrir un software CAM: se cargan las medidas, se elige la operación y se obtiene un programa listo para simular y llevar a máquina.</p>
+
+            <!-- Llamado a la acción intermedio -->
+            <div class="cta-articulo-box">
+                <p class="cta-articulo-titulo">⚡ Poné a prueba la herramienta</p>
+                <p class="cta-articulo-texto">Generá tus rutinas de mecanizado directamente desde el navegador, sin instalación previa.</p>
+                <a href="../generador-cnc.html" class="btn-cta-articulo">Abrir Generador de Código G</a>
+            </div>
+
+            <h2>Cómo está construida</h2>
+            <ul>
+                <li>Se ejecuta en el navegador con HTML5, CSS3 y JavaScript puro, sin frameworks ni librerías externas.</li>
+                <li>Funciona de forma local: el programa se calcula en tu equipo y los datos que cargás no se envían a ningún servidor.</li>
+                <li>Está separada en módulos: estado, matemática de CAD (límites del G54 y validación), generador de código Fanuc e interfaz.</li>
+            </ul>
+
+            <h2>Convenciones de trabajo</h2>
+            <ul>
+                <li><strong>Z0</strong> es la cara terminada de la pieza. El material sobrante (Z sobrematerial) queda por encima y el planeado baja hasta Z acabado.</li>
+                <li>El <strong>G54</strong> se ubica con una matriz de 9 posiciones (esquinas, puntos medios de los bordes y centro). A partir de la posición elegida y de las medidas del bloque, la aplicación calcula los límites respecto del cero pieza.</li>
+                <li>El código trabaja sobre la <strong>trayectoria del centro de la herramienta</strong>. No emite compensación de radio (G41/G42); el encabezado incluye G40 y la herramienta se desplaza con el radio ya aplicado en las coordenadas.</li>
+                <li>Paso lateral del 70% del diámetro de la herramienta en los barridos y vaciados.</li>
+                <li>Interpolación circular con <strong>I y J incrementales</strong>, medidos desde el punto de inicio del arco hasta su centro, como espera un control Fanuc.</li>
+                <li>Ciclos fijos <strong>G81 y G83 en modo modal</strong>: los puntos siguientes al primero se escriben solo con X e Y, y el ciclo se cierra con G80.</li>
+            </ul>
+
+            <h2>Validación de seguridad en tiempo real</h2>
+            <p>Mientras completás los datos, la aplicación revisa los valores y bloquea el botón de generar si detecta errores tales como avances, RPM, diámetros o pasadas en Z menores o iguales a cero, diámetros mayores a la cavidad, o Z de seguridad por debajo de Z0. Los errores aparecen en rojo con el motivo y desaparecen apenas se corrigen.</p>
+
+            <h2>Guía de uso paso a paso</h2>
+            <ol>
+                <li><strong>Paso 1 · Pieza y cero pieza (G54):</strong> Ingresá largo X, ancho Y, Z sobrematerial y Z acabado. Seleccioná en la matriz la posición de tu G54.</li>
+                <li><strong>Paso 2 · Herramienta y avances:</strong> Definí diámetro, RPM (S), avance plano (F), avance en Z, pasada máxima y Z de seguridad.</li>
+                <li><strong>Paso 3 · Operación:</strong> Elegí entre Planeado, Escuadrado exterior, Cavidad o Perforado.</li>
+                <li><strong>Paso 4 · Parámetros específicos:</strong> Completá los datos correspondientes a la operación seleccionada.</li>
+                <li><strong>Paso 5 · Generar y descargar:</strong> Obtené el código G listo para copiar o descargar como archivo <code>.NC</code> (por ejemplo, <code>O1001.NC</code>).</li>
+            </ol>
+
+            <h2>Ejemplo: seis agujeros en círculo</h2>
+            <p>Bloque de 100 × 60 mm, G54 en el centro (posición 5), broca de 8 mm, Z de seguridad 5, 2500 RPM, avance Z 120. Operación Perforado con ciclo G83 y patrón circular de Ø40:</p>
+
+            <pre class="codigo-bloque" tabindex="0"><code>%
+O1001 (GM-MILL FANUC)
+(HERRAMIENTA: BROCA DIA 8.)
+G17 G21 G40 G49 G80 G90 G94 G54
+G91 G28 Z0.
+G90
+T1 M06
+G00 X20. Y0. S2500 M03
+G43 H1 Z25.
+G00 Z5. M08
+G98 G83 X20. Y0. Z-15. R2. Q4. F120.
+X10. Y17.321
+X-10. Y17.321
+X-20. Y0.
+X-10. Y-17.321
+X10. Y-17.321
+G80
+G00 Z5. M09
+G91 G28 Z0. M05
+G28 Y0.
+M30
+%</code></pre>
+
+            <h2>Antes de llevarlo a máquina</h2>
+            <ul>
+                <li>Simulá siempre el programa en software como CAMotics o NC Viewer para verificar trayectorias.</li>
+                <li>Revisá los arcos: comprobá que el simulador interprete I y J como incrementales si usa sintaxis estándar Fanuc.</li>
+                <li>Adaptá el encabezado y el pie a las particularidades de tu máquina y control.</li>
+                <li>Corré siempre una prueba en aire y con el avance reducido antes de cortar material.</li>
+            </ul>
+
+            <div class="articulo-relacionado">
+                <p class="articulo-relacionado-etiqueta">Seguí leyendo</p>
+                <p><a href="como-programar-planeado-fresa-fanuc.html">Cómo programar un planeado en fresadora Fanuc: cálculo manual y programa generado</a></p>
+            </div>
+
+            <p class="articulo-volver"><a href="index.html">← Volver al blog</a></p>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="articulo-footer">
+        <p>© 2026 Industria 4.0 - SolGia &amp; Tu Mundo 3D - Argentina</p>
+    </footer>
+
+</body>
+</html>

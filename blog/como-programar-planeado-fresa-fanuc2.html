@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cómo programar un planeado en fresadora Fanuc (Guía y Código G) | SolGia</title>
+    <meta name="description" content="Aprende la sintaxis del código G para un planeado óptimo en centros de mecanizado Fanuc, cálculo de pasadas y cómo automatizarlo.">
+    
+    <!-- Estilos compartidos -->
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../css/articulo.css">
+</head>
+<body>
+
+    <!-- Header / Navegación principal -->
+    <header class="main-header">
+        <nav class="nav-container">
+            <a href="../index.html" class="logo">SolGia & Tu Mundo 3D</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../index.html#solgia">SolGia (CNC)</a></li>
+                <li><a href="../index.html#tumundo3d">Tu Mundo 3D</a></li>
+                <li><a href="../generador-cnc.html">Generador CNC</a></li>
+                <li><a href="index.html">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="articulo-container">
+        
+        <header class="articulo-header">
+            <span class="articulo-tag">Programación CNC</span>
+            <h1 class="articulo-title">Cómo programar un planeado en fresadora Fanuc (Ejemplo manual vs. Generador automático)</h1>
+            <div class="articulo-meta">
+                <span>Por Gustavo Soler</span> &bull; <span>Lectura técnica: 5 min</span>
+            </div>
+        </header>
+
+        <div class="articulo-content">
+            
+            <p>El <strong>planeado</strong> es una de las operaciones más frecuentes en los centros de mecanizado verticales con control Fanuc. Ya sea preparando un bloque bruto de acero o aluminio o dando la terminación superficial final, programar un barrido correcto requiere calcular bien el paso lateral, las entradas y salidas de la herramienta para evitar marcas en la superficie.</p>
+
+            <p>En este artículo analizaremos los conceptos clave de la programación manual de un planeado y cómo puedes agilizar este proceso en el taller.</p>
+
+            <!-- Llamado a la acción intermedio -->
+            <div class="cta-articulo-box">
+                <h3 style="color: #f8fafc; margin-bottom: 10px;">⚡ Ahorrá tiempo en el taller</h3>
+                <p style="color: #94a3b8; margin-bottom: 20px;">Generá el código G de planeado para tu control Fanuc automáticamente desde el navegador.</p>
+                <a href="../generador-cnc.html" style="background-color: #38bdf8; color: #0f172a; padding: 10px 24px; border-radius: 6px; font-weight: 600; text-decoration: none; display: inline-block;">Probar Generador de Planeado</a>
+            </div>
+
+            <h2>Puntos clave a tener en cuenta</h2>
+            <ul>
+                <li><strong>Diámetro de la fresa:</strong> Debe ser mayor al ancho de la pieza si se desea pasar en una sola pasada, o se programarán pasadas múltiples (zig-zag o a favor del corte) con un solape o paso lateral (típicamente entre el 60% y el 70% del diámetro de la placa).</li>
+                <li><strong>Posicionamiento inicial (G54):</strong> Es fundamental asegurar que la herramienta comience su recorrido fuera de los límites de la pieza para evitar impactos directos con el material bruto.</li>
+                <li><strong>Z sobrematerial y Z acabado:</strong> El programa debe contemplar el nivel de partida desde el material sobrante hasta la cota final Z = 0.</li>
+            </ul>
+
+            <h2>Estructura básica del código G para planeado</h2>
+            <p>Un bloque típico de aproximación y ejecución de un barrido lineal utiliza interpolación de movimiento rápido (<code>G00</code>) y lineal con avance de trabajo (<code>G01</code>):</p>
+
+            <div class="codigo-bloque">%
+O1002 (EJEMPLO PLANEAJE FANUC)
+G17 G21 G40 G49 G80 G90 G94 G54
+G91 G28 Z0.
+G90
+T1 M06 (CABEZA DE PLANEAR D50)
+G00 X-30. Y-20. S1800 M03
+G43 H1 Z25.
+G00 Z5. M08
+G01 Z-1. F300 (ENTRADA A PROFUNDIDAD)
+G01 X130. F1200 (BARRIDO PRINCIPAL)
+G00 Z5.
+...
+M30
+%</div>
+
+            <h2>Estrategias de barrido</h2>
+            <ul>
+                <li><strong>A favor del corte:</strong> Pasadas alternadas desde los bordes superior e inferior hacia el centro, manteniendo un sentido de corte coherente con el giro de la herramienta.</li>
+                <li><strong>Zig-zag:</strong> Movimiento continuo de ida y vuelta de arriba hacia abajo, ideal para reducir los tiempos muertos de posicionamiento en vacío.</li>
+            </ul>
+
+            <h2>Conclusión</h2>
+            <p>Calcular manualmente las coordenadas de inicio, fin y las pasadas sucesivas de una herramienta de planear consume valiosos minutos a pie de máquina. Utilizar herramientas automatizadas ayuda a eliminar errores humanos de transcripción y optimiza la productividad del centro de mecanizado.</p>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 30px; color: #64748b; border-top: 1px solid #334155; margin-top: 60px;">
+        <p>© 2026 Industria 4.0 - SolGia & Tu Mundo 3D - Argentina</p>
+    </footer>
+
+</body>
+</html>

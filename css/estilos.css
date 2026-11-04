@@ -943,6 +943,148 @@ footer {
 .btn-curso:hover {
     background-color: var(--azul-dark);
 }
+
+.seccion-experiencia {
+    padding: 80px 20px;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+.grid-experiencia {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.resaltado {
+    font-size: 1.4rem;
+    color: #003366; /* Azul Marino SolGia */
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.texto-principal p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+/* Tarjetas de estadísticas */
+.stats-experiencia {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.stat-card {
+    background: #003366;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border-left: 5px solid #00bcd4; /* Cian SolGia */
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateX(10px);
+}
+
+.stat-card .numero {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00bcd4;
+}
+
+.stat-card .etiqueta {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.cierre-impacto {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.cierre-impacto blockquote {
+    font-size: 1.8rem;
+    font-style: italic;
+    font-weight: bold;
+    color: #003366;
+    border: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid-experiencia {
+        grid-template-columns: 1fr;
+    }
+    
+    .cierre-impacto blockquote {
+        font-size: 1.3rem;
+    }
+}
+
+.cta-capacitacion {
+    background-color: #003366; /* Azul Marino SolGia */
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.contenedor-consulta {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-capacitacion h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #00bcd4; /* Cian SolGia */
+}
+
+.cta-capacitacion p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.gratis {
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #00bcd4;
+}
+
+.btn-whatsapp-final {
+    display: inline-block;
+    background-color: #25d366; /* Color oficial WhatsApp */
+    color: white;
+    padding: 18px 40px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-whatsapp-final:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Para que el scroll sea fluido al hacer clic arriba */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Para que el scroll sea fluido al hacer clic arriba */
+html {
+    scroll-behavior: smooth;
+}
+
 /* 5. SECCIÓN DEDICADA GENERADOR G-CODE */
 .seccion-destacada-gcode {
     background-color: var(--oscuro-industrial);

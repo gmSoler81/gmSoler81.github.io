@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cómo programar un planeado en fresadora Fanuc (Guía y Código G) | SolGia</title>
+    <meta name="description" content="Aprendé a programar un planeado en una fresadora Fanuc: cálculo de pasadas, estrategias de barrido y un programa de código G real explicado línea por línea.">
+    <meta name="author" content="Gustavo Soler">
+
+    <!-- Estilos compartidos -->
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../css/articulo.css">
+</head>
+<body class="pagina-blog">
+
+    <!-- Header / Navegación principal -->
+    <header class="main-header">
+        <nav class="nav-container" aria-label="Principal">
+            <a href="../index.html" class="logo">SolGia &amp; Tu Mundo 3D</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../index.html#solgia">SolGia (CNC)</a></li>
+                <li><a href="../index.html#tumundo3d">Tu Mundo 3D</a></li>
+                <li><a href="../generador-cnc.html">Generador CNC</a></li>
+                <li><a href="index.html" class="active">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="articulo-container">
+
+        <header class="articulo-header">
+            <span class="articulo-tag">Programación CNC</span>
+            <h1 class="articulo-title">Cómo programar un planeado en fresadora Fanuc (Ejemplo manual vs. Generador automático)</h1>
+            <div class="articulo-meta">
+                <span>Por Gustavo Soler</span> &bull; <span>Lectura técnica: 6 min</span>
+            </div>
+        </header>
+
+        <div class="articulo-content">
+
+            <p>El <strong>planeado</strong> es una de las operaciones más frecuentes en los centros de mecanizado verticales con control Fanuc. Ya sea para preparar un bloque bruto de acero o aluminio o para dar la terminación final de una cara, programar un barrido correcto exige calcular bien el paso lateral y las entradas y salidas de la herramienta para evitar marcas en la superficie.</p>
+
+            <p>En este artículo calculamos a mano un planeado completo, leemos el programa de código G que resulta y lo comparamos con el que genera <a href="gm-mill-fanuc-generador-codigo-g.html">GM-Mill Fanuc</a> con los mismos datos.</p>
+
+            <!-- Llamado a la acción intermedio -->
+            <div class="cta-articulo-box">
+                <p class="cta-articulo-titulo">⚡ Ahorrá tiempo en el taller</p>
+                <p class="cta-articulo-texto">Generá el código G de planeado para tu control Fanuc automáticamente desde el navegador.</p>
+                <a href="../generador-cnc.html" class="btn-cta-articulo">Probar Generador de Planeado</a>
+            </div>
+
+            <h2>Mirá cómo funciona</h2>
+            <figure class="articulo-video">
+                <video controls preload="metadata" playsinline poster="../media/planeado-poster.jpg" width="720" height="720">
+                    <source src="../media/planeado.mp4" type="video/mp4">
+                    Tu navegador no puede reproducir este video. <a href="../media/planeado.mp4">Descargalo</a>.
+                </video>
+                <figcaption>Recorrido completo del ejemplo: carga de la pieza y la herramienta en GM-Mill Fanuc, programa guardado como Planeado.nc y simulación en CAMotics. El video no tiene audio; cada paso está explicado con subtítulos.</figcaption>
+            </figure>
+
+            <h2>Puntos clave a tener en cuenta</h2>
+            <ul>
+                <li><strong>Diámetro de la fresa:</strong> para planear en una sola pasada debe ser mayor que el ancho de la pieza. Si es menor, se programan pasadas múltiples (a favor del corte o zig-zag) con un paso lateral típico de entre el 60% y el 70% del diámetro de la fresa.</li>
+                <li><strong>Aproximación fuera de la pieza:</strong> cada barrido debe empezar y terminar fuera de los límites del material bruto, para evitar impactos contra el borde y marcas de entrada y salida. Las coordenadas se miden desde el cero pieza (G54).</li>
+                <li><strong>Z sobrematerial y Z acabado:</strong> el programa debe contemplar el material sobrante, que queda por encima de la cara terminada, y bajar en pasadas sucesivas hasta la cota final Z0.</li>
+            </ul>
+
+            <h2>El ejemplo: datos de partida</h2>
+            <ul>
+                <li>Pieza de 200 mm en X por 100 mm en Y.</li>
+                <li>2 mm de sobrematerial en Z, terminando en Z0.</li>
+                <li>G54 en el centro de la pieza, vista desde arriba.</li>
+                <li>Fresa de planear de Ø50 mm, a 1000 RPM.</li>
+                <li>Avance plano de 1000 mm/min, avance de entrada en Z de 500 mm/min y pasada de 0,5 mm en Z.</li>
+                <li>Z de seguridad de 5 mm y margen de seguridad de 5 mm.</li>
+            </ul>
+
+            <h2>Cálculo manual, paso a paso</h2>
+            <ol>
+                <li><strong>Niveles en Z:</strong> 2 mm de sobrematerial dividido 0,5 mm de pasada son 4 niveles: Z1.5, Z1., Z0.5 y Z0.</li>
+                <li><strong>Paso lateral:</strong> el 70% del diámetro de la fresa es 0,70 × 50 = 35 mm.</li>
+                <li><strong>Pasadas en Y por nivel:</strong> GM-Mill Fanuc programa 4 barridos por nivel, ubicados en Y45, Y-45, Y10 e Y-10: dos desde cada borde hacia el centro, separados 35 mm entre sí.</li>
+                <li><strong>Recorrido en X:</strong> la pieza llega a ±100 mm desde el cero. La fresa debe salir por completo del material: 100 + 25 (radio) + 5 (margen) = 130 mm, es decir, de X-130 a X130.</li>
+                <li><strong>Tiempo de corte:</strong> 4 niveles × 4 barridos son 16 pasadas de 260 mm, o sea 4160 mm. A 1000 mm/min son poco más de 4 minutos de corte efectivo, sin contar movimientos rápidos ni el cambio de herramienta.</li>
+            </ol>
+
+            <h2>El programa de código G resultante</h2>
+            <p>Estas son las 55 líneas completas que genera GM-Mill Fanuc con los datos anteriores. Se leen de arriba hacia abajo, sin saltos ni subprogramas:</p>
+
+            <pre class="codigo-bloque" tabindex="0"><code>%
+O1001 (GM-MILL FANUC)
+(HERRAMIENTA: FRESA DIA 50.)
+G17 G21 G40 G49 G80 G90 G94 G54
+G91 G28 Z0.
+G90
+T1 M06
+G00 X-130. Y45. S1000 M03
+G43 H1 Z25.
+G00 Z5. M08
+G0 Z3.
+G1 Z1.5 F500.
+G0 Y45.
+G1 X130. F1000.
+G0 Y-45.
+G1 X-130.
+G0 Y10.
+G1 X130. F1000.
+G0 Y-10.
+G1 X-130.
+G0 Y45.
+G1 Z1. F500.
+G0 Y45.
+G1 X130. F1000.
+G0 Y-45.
+G1 X-130.
+G0 Y10.
+G1 X130. F1000.
+G0 Y-10.
+G1 X-130.
+G0 Y45.
+G1 Z0.5 F500.
+G0 Y45.
+G1 X130. F1000.
+G0 Y-45.
+G1 X-130.
+G0 Y10.
+G1 X130. F1000.
+G0 Y-10.
+G1 X-130.
+G0 Y45.
+G1 Z0. F500.
+G0 Y45.
+G1 X130. F1000.
+G0 Y-45.
+G1 X-130.
+G0 Y10.
+G1 X130. F1000.
+G0 Y-10.
+G1 X-130.
+G00 Z5. M09
+G91 G28 Z0. M05
+G28 Y0.
+M30
+%</code></pre>
+
+            <h3>Cómo leerlo</h3>
+            <ul>
+                <li><strong>Líneas 2 a 6:</strong> número de programa, comentarios y línea de seguridad. <code>G17</code> plano XY, <code>G21</code> milímetros, <code>G40</code> cancela compensación de radio, <code>G49</code> cancela compensación de largo, <code>G80</code> cancela ciclos fijos, <code>G90</code> coordenadas absolutas, <code>G94</code> avance en mm/min y <code>G54</code> cero pieza. Luego <code>G91 G28 Z0.</code> lleva el eje Z al origen de máquina antes del cambio de herramienta.</li>
+                <li><strong>Líneas 7 a 10:</strong> cambio de herramienta, posicionamiento fuera de la pieza en X-130 Y45 con el husillo a 1000 RPM, compensación de largo con <code>G43 H1</code> y bajada a Z5 con refrigerante.</li>
+                <li><strong>Líneas 11 a 21:</strong> primer nivel. Bajada rápida a Z3 (1 mm sobre el material bruto, que llega a Z2), entrada a Z1.5 con avance de 500 y luego los cuatro barridos en X: Y45 hacia X130, Y-45 hacia X-130, Y10 hacia X130 e Y-10 hacia X-130.</li>
+                <li><strong>Líneas 22 a 50:</strong> el mismo patrón repetido para Z1., Z0.5 y Z0. Lo único que cambia entre niveles es la cota Z.</li>
+                <li><strong>Líneas 51 a 55:</strong> retirada a Z5 con refrigerante apagado, retorno de Z al origen de máquina con husillo detenido, retorno de Y a su referencia y fin de programa con <code>M30</code>.</li>
+            </ul>
+
+            <div class="articulo-nota">
+                <p><strong>Ojo con los movimientos laterales.</strong> Los desplazamientos <code>G0</code> entre barridos se hacen a la profundidad de corte, pero siempre en X130 o X-130, fuera de la pieza. Eso es seguro solo si en esa zona no hay mordazas, bridas ni topes. Si los hay, subí Z antes de cada desplazamiento lateral.</p>
+            </div>
+
+            <h2>Estrategias de barrido</h2>
+            <ul>
+                <li><strong>A favor del corte (concordancia):</strong> en el punto de contacto, el filo avanza en el mismo sentido en que se mueve el material respecto de la herramienta. La viruta pasa de gruesa a fina, lo que mejora el acabado y la vida útil del inserto, pero exige una máquina rígida y sin juego. Los retiros se hacen en vacío, fuera de la pieza, como en el ejemplo.</li>
+                <li><strong>Zig-zag:</strong> movimiento continuo de ida y vuelta, alternando el sentido de avance en cada pasada. Reduce los tiempos muertos de posicionamiento, pero la mitad de las pasadas corta en oposición, con peor acabado.</li>
+            </ul>
+
+            <h2>Manual vs. generador: facilidad y seguridad</h2>
+            <p>A pie de máquina, un programador con experiencia no escribe estas 55 líneas. Resuelve el planeado con un subprograma que se repite en cada nivel de Z, y el programa principal queda en unas pocas líneas. Es la forma más compacta y la que se usa en el taller.</p>
+            <p>El generador no compite en cantidad de líneas. Su valor está en dos cosas:</p>
+            <ul>
+                <li><strong>Facilidad:</strong> no hace falta calcular de cabeza los niveles en Z, la posición de los barridos ni los límites del recorrido. Se cargan los datos de la pieza y de la herramienta, se elige Planeado y el programa sale completo y explícito, sin subprogramas, para leerlo de arriba hacia abajo. Eso sirve para aprender, para revisarlo rápido o cuando no se programa todos los días.</li>
+                <li><strong>Seguridad:</strong> las cuentas las hace la aplicación y no se arrastran errores de signo ni de punto decimal. Antes de generar, valida los datos y bloquea el botón si hay avances, RPM, diámetros o pasadas en cero o negativos, o una Z de seguridad por debajo de Z0. Cada barrido empieza y termina fuera de la pieza, con margen, y el encabezado cancela siempre las funciones activas (<code>G40</code>, <code>G49</code>, <code>G80</code>) antes de mover la máquina.</li>
+            </ul>
+            <p>Como cada nivel es idéntico salvo la cota Z, el programa generado también sirve de base si preferís pasarlo a subprograma al estilo del taller.</p>
+            <p>El generador no reemplaza el criterio del programador: el programa se simula en CAMotics o NC Viewer y se prueba en aire, con el avance reducido, antes de cortar material.</p>
+
+            <h2>Conclusión</h2>
+            <p>Un planeado se puede programar de muchas formas, y a pie de máquina lo normal es hacerlo compacto, con subprogramas. Lo que aporta un generador es otra cosa: hace las cuentas por vos, entrega un programa completo y fácil de leer, y revisa los datos antes de generarlo para que un valor mal cargado no llegue a la máquina.</p>
+            <p>Usalo como punto de partida, verificalo en un simulador y probalo en aire. Así el tiempo que ahorrás en el cálculo lo podés dedicar a lo que de verdad define el resultado: la herramienta, los parámetros de corte y la sujeción de la pieza.</p>
+
+            <div class="articulo-relacionado">
+                <p class="articulo-relacionado-etiqueta">Seguí leyendo</p>
+                <p><a href="gm-mill-fanuc-generador-codigo-g.html">GM-Mill Fanuc: cómo usar el generador gratuito de código G para fresadoras Fanuc</a></p>
+            </div>
+
+            <p class="articulo-volver"><a href="index.html">← Volver al blog</a></p>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="articulo-footer">
+        <p>© 2026 Industria 4.0 - SolGia &amp; Tu Mundo 3D - Argentina</p>
+    </footer>
+
+</body>
+</html>

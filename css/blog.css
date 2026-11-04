@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Estilos específicos para el Blog (SolGia & Tu Mundo 3D)
+   ========================================================================== */
+
+/* Fondo y color de texto propios del blog: no dependen de estilos.css */
+body.pagina-blog {
+    background-color: #0a0f1d;
+    color: #cbd5e1;
+}
+
+
+.blog-header {
+    padding: 60px 20px 40px;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(10, 15, 29, 1) 100%);
+}
+
+.blog-header h1 {
+    color: #f8fafc;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    line-height: 1.25;
+}
+
+.blog-header-subtitle {
+    color: #94a3b8;
+    max-width: 700px;
+    margin: 10px auto 0;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+.blog-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* min(320px, 100%) evita desborde horizontal en pantallas menores a 360px */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 30px;
+}
+
+.blog-card {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.blog-card:hover,
+.blog-card:focus-within {
+    transform: translateY(-5px);
+    border-color: #38bdf8;
+}
+
+.blog-card-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin: 16px 20px 0;
+    width: fit-content;
+}
+
+.tag-cnc { background-color: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+.tag-3d { background-color: rgba(168, 85, 247, 0.15); color: #c084fc; }
+.tag-i40 { background-color: rgba(34, 197, 94, 0.15); color: #4ade80; }
+
+.blog-card-content {
+    padding: 16px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.blog-card-title {
+    font-size: 1.25rem;
+    color: #f8fafc;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.blog-card-excerpt {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+/* Gris más claro que #64748b: sobre #1e293b ese tono daba contraste 3:1 (mínimo 4.5:1) */
+.blog-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #334155;
+    padding-top: 15px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.blog-card-link {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.blog-card-link:hover {
+    text-decoration: underline;
+}
+
+/* Artículos todavía sin publicar: texto plano, no enlace */
+.blog-card-link--pronto,
+.blog-card-link--pronto:hover {
+    color: #94a3b8;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: default;
+}
+
+.blog-card-link:focus-visible,
+.btn-cta-generator:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.cta-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 1px solid #38bdf8;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.cta-banner-title {
+    color: #f8fafc;
+    margin-bottom: 10px;
+}
+
+.cta-banner-text {
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+.btn-cta-generator {
+    background-color: #38bdf8;
+    color: #0f172a;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cta-generator:hover {
+    background-color: #0284c7;
+    color: #ffffff;
+}
+
+.blog-footer {
+    text-align: center;
+    padding: 30px;
+    color: #94a3b8;
+    border-top: 1px solid #334155;
+    margin-top: 60px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blog-card,
+    .btn-cta-generator {
+        transition: none;
+    }
+    .blog-card:hover,
+    .blog-card:focus-within {
+        transform: none;
+    }
+}

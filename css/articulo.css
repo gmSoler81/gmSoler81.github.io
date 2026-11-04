@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Estilos para Artículos del Blog (SolGia & Tu Mundo 3D)
+   ========================================================================== */
+
+/* Fondo y color de texto propios del blog: no dependen de estilos.css */
+body.pagina-blog {
+    background-color: #0a0f1d;
+    color: #cbd5e1;
+}
+
+
+.articulo-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.articulo-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 25px;
+}
+
+.articulo-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    background-color: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+}
+
+.articulo-title {
+    font-size: clamp(1.6rem, 4.5vw, 2.2rem);
+    color: #f8fafc;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+/* Gris más claro que antes (#64748b): cumple contraste mínimo 4.5:1 sobre fondo oscuro */
+.articulo-meta {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.articulo-content h2 {
+    font-size: 1.5rem;
+    color: #38bdf8;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    border-left: 4px solid #38bdf8;
+    padding-left: 12px;
+}
+
+.articulo-content h3 {
+    font-size: 1.25rem;
+    color: #f8fafc;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.articulo-content p {
+    margin-bottom: 20px;
+}
+
+.articulo-content ul, .articulo-content ol {
+    margin-bottom: 20px;
+    padding-left: 24px;
+}
+
+.articulo-content li {
+    margin-bottom: 8px;
+}
+
+/* Enlaces dentro del texto (antes quedaban con el azul/violeta por defecto del navegador) */
+.articulo-content a:not(.btn-cta-articulo) {
+    color: #38bdf8;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.articulo-content a:not(.btn-cta-articulo):hover {
+    color: #7dd3fc;
+}
+
+/* Código en línea: <code>G00</code> */
+.articulo-content :not(pre) > code {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #38bdf8;
+}
+
+/* Bloque de código: se usa <pre class="codigo-bloque"><code>…</code></pre> */
+.codigo-bloque {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 20px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #38bdf8;
+    overflow-x: auto;
+    margin: 25px 0;
+    white-space: pre;
+}
+
+.codigo-bloque code {
+    font-family: inherit;
+    color: inherit;
+}
+
+.codigo-bloque:focus-visible {
+    outline: 2px solid #38bdf8;
+    outline-offset: 2px;
+}
+
+/* Recuadro de aviso (seguridad, advertencias de taller) */
+.articulo-nota {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-left: 4px solid #38bdf8;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 25px 0;
+}
+
+.articulo-nota p:last-child {
+    margin-bottom: 0;
+}
+
+/* Llamado a la acción */
+.cta-articulo-box {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 1px solid #38bdf8;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 50px 0 30px;
+    text-align: center;
+}
+
+.cta-articulo-titulo {
+    color: #f8fafc;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.cta-articulo-texto {
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+
+.btn-cta-articulo {
+    background-color: #38bdf8;
+    color: #0f172a;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cta-articulo:hover {
+    background-color: #0284c7;
+    color: #ffffff;
+}
+
+.btn-cta-articulo:focus-visible {
+    outline: 2px solid #f8fafc;
+    outline-offset: 3px;
+}
+
+/* Video incrustado */
+.articulo-video {
+    margin: 30px 0;
+}
+
+.articulo-video video {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+}
+
+.articulo-video figcaption {
+    max-width: 600px;
+    margin: 10px auto 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #94a3b8;
+}
+
+/* Navegación al final del artículo */
+.articulo-relacionado {
+    border-top: 1px solid #334155;
+    margin-top: 50px;
+    padding-top: 25px;
+}
+
+.articulo-relacionado-etiqueta {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+}
+
+.articulo-volver {
+    margin-top: 25px;
+    font-size: 0.95rem;
+}
+
+/* Pie de página (antes estaba en estilos inline dentro de cada artículo) */
+.articulo-footer {
+    text-align: center;
+    padding: 30px;
+    color: #94a3b8;
+    border-top: 1px solid #334155;
+    margin-top: 60px;
+}

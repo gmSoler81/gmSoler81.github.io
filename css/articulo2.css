@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Estilos para Artículos del Blog (SolGia & Tu Mundo 3D)
+   ========================================================================== */
+
+.articulo-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.articulo-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 25px;
+}
+
+.articulo-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    background-color: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+}
+
+.articulo-title {
+    font-size: 2.2rem;
+    color: #f8fafc;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.articulo-meta {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.articulo-content h2 {
+    font-size: 1.5rem;
+    color: #38bdf8;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    border-left: 4px solid #38bdf8;
+    padding-left: 12px;
+}
+
+.articulo-content h3 {
+    font-size: 1.25rem;
+    color: #f8fafc;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.articulo-content p {
+    margin-bottom: 20px;
+}
+
+.articulo-content ul, .articulo-content ol {
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.articulo-content li {
+    margin-bottom: 8px;
+}
+
+.codigo-bloque {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    color: #38bdf8;
+    overflow-x: auto;
+    margin: 25px 0;
+    white-space: pre;
+}
+
+.cta-articulo-box {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 1px solid #38bdf8;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 50px 0 30px;
+    text-align: center;
+}

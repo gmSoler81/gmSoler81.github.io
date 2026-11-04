@@ -1,0 +1,150 @@
+.caja-teoria {
+    background: #eef9fb;
+    border-left: 6px solid #00bcd4;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+.grid-rutas {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.clase-card {
+    background: white;
+    padding: 20px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-ver {
+    background: #003366;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-bloqueado {
+    background: #ccc;
+    color: #666;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: not-allowed;
+}
+
+/* Estilos para la Academia */
+.contenedor-leccion {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.bajada-leccion {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.caja-teoria {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-left: 6px solid #00bcd4; /* Azul SolGia */
+}
+
+/* Para que la segunda caja invierta el orden (imagen a la izquierda) */
+.caja-teoria:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.columna-texto {
+    flex: 2;
+}
+
+.columna-imagen {
+    flex: 1;
+    text-align: center;
+}
+
+.img-cero {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    /* Un toque sutil de sombra a la imagen */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2); 
+}
+
+.caja-teoria h4 {
+    color: #003366; /* Azul Marino SolGia */
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+/* Estilos para los botones de Ruta (más grandes e institucionales) */
+.caja-accion {
+    text-align: center;
+    margin-top: 50px;
+    padding: 30px;
+    background: #eef9fb;
+    border-radius: 15px;
+}
+
+.grid-rutas {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.btn-ruta {
+    padding: 18px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    color: white;
+}
+
+.btn-ruta.torno {
+    background-color: #00bcd4; /* Azul SolGia */
+}
+
+.btn-ruta.fresa {
+    background-color: #003366; /* Azul Marino SolGia */
+}
+
+.btn-ruta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Responsive para celulares */
+@media (max-width: 768px) {
+    .caja-teoria, .caja-teoria:nth-child(even) {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .grid-rutas {
+        flex-direction: column;
+    }
+}
