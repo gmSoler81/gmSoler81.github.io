@@ -1,0 +1,160 @@
+/* ==========================================================================
+   Estilos exclusivos para Páginas de Cursos y Servicios (SolGia)
+   ========================================================================== */
+
+.landing-cursos {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    color: #cbd5e1;
+}
+
+/* Banner Principal / Hero */
+.hero-cursos {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 1px solid #334155;
+    border-radius: 16px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.hero-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    background-color: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.hero-cursos h1 {
+    font-size: 2.5rem;
+    color: #f8fafc;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.hero-cursos p {
+    font-size: 1.15rem;
+    color: #94a3b8;
+    max-width: 750px;
+    margin: 0 auto 30px;
+}
+
+/* Grilla de Oferta de Cursos */
+.cursos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.curso-card {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.curso-card:hover {
+    transform: translateY(-5px);
+    border-color: #38bdf8;
+}
+
+.curso-badge {
+    align-self: flex-start;
+    padding: 4px 10px;
+    background-color: #1e293b;
+    color: #38bdf8;
+    border: 1px solid #38bdf8;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.curso-card h3 {
+    font-size: 1.4rem;
+    color: #f8fafc;
+    margin-bottom: 12px;
+}
+
+.curso-card p {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.curso-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0;
+}
+
+.curso-features li {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.curso-features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #38bdf8;
+    font-weight: bold;
+}
+
+/* Botón interactivo de conversión */
+.btn-curso {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    background-color: #38bdf8;
+    color: #0f172a;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.btn-curso:hover {
+    background-color: #7dd3fc;
+}
+
+.btn-whatsapp {
+    background-color: #22c55e;
+    color: #ffffff;
+}
+
+.btn-whatsapp:hover {
+    background-color: #4ade80;
+}
+
+/* Bloque de Empresas e In-Situ */
+.seccion-empresas {
+    background-color: #1e293b;
+    border-left: 4px solid #38bdf8;
+    padding: 35px;
+    border-radius: 8px;
+    margin-bottom: 60px;
+}
+
+.seccion-empresas h2 {
+    color: #f8fafc;
+    margin-bottom: 15px;
+}
