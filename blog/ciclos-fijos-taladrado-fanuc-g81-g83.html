@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciclos fijos de taladrado en Fanuc: G81 vs G83 (Guía y ejemplo) | SolGia</title>
+    <meta name="description" content="Diferencias entre G81 y G83 en Fanuc, qué significan Z, R, Q y F, cuándo usar picoteo y un programa real de 8 agujeros en círculo explicado paso a paso.">
+    <meta name="author" content="Gustavo Soler">
+
+    <!-- Estilos compartidos -->
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../css/articulo.css">
+</head>
+<body class="pagina-blog">
+
+    <!-- Header / Navegación principal -->
+    <header class="main-header">
+        <nav class="nav-container" aria-label="Principal">
+            <a href="../index.html" class="logo">SolGia &amp; Tu Mundo 3D</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../index.html#solgia">SolGia (CNC)</a></li>
+                <li><a href="../index.html#tumundo3d">Tu Mundo 3D</a></li>
+                <li><a href="../generador-cnc.html">Generador CNC</a></li>
+                <li><a href="index.html" class="active">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="articulo-container">
+
+        <header class="articulo-header">
+            <span class="articulo-tag">Fanuc</span>
+            <h1 class="articulo-title">Ciclos fijos de taladrado en Fanuc: G81 vs G83 (con un ejemplo de agujeros en círculo)</h1>
+            <div class="articulo-meta">
+                <span>Por Gustavo Soler</span> &bull; <span>Lectura técnica: 7 min</span>
+            </div>
+        </header>
+
+        <div class="articulo-content">
+
+            <p>Programar un agujero con <code>G01</code> y <code>G00</code> línea por línea sirve para uno o dos agujeros. Cuando son ocho, o treinta, se usan los <strong>ciclos fijos</strong>: se definen una sola vez los datos del agujero y el control los repite en cada posición. Los dos más usados en taladrado son <code>G81</code>, el taladrado simple, y <code>G83</code>, el taladrado con picoteo.</p>
+
+            <p>En este artículo vemos qué significa cada parámetro, cuándo conviene uno u otro y leemos, línea por línea, un programa real de ocho agujeros en círculo generado con <a href="gm-mill-fanuc-generador-codigo-g.html">GM-Mill Fanuc</a>.</p>
+
+            <!-- Llamado a la acción intermedio -->
+            <div class="cta-articulo-box">
+                <p class="cta-articulo-titulo">⚡ Generá tu programa de perforado</p>
+                <p class="cta-articulo-texto">Elegí G81 o G83, el patrón y los datos del agujero, y obtené el código G listo para simular.</p>
+                <a href="../generador-cnc.html" class="btn-cta-articulo">Probar Generador de Perforado</a>
+            </div>
+
+            <h2>Mirá cómo funciona</h2>
+            <figure class="articulo-video">
+                <video controls preload="metadata" playsinline poster="../media/perforado-poster.jpg" width="638" height="544">
+                    <source src="../media/perforado.mp4" type="video/mp4">
+                    Tu navegador no puede reproducir este video. <a href="../media/perforado.mp4">Descargalo</a>.
+                </video>
+                <figcaption>Recorrido completo del ejemplo: carga de la pieza y la broca en GM-Mill Fanuc, elección del ciclo G83 con patrón circular, programa guardado como perforado.nc y simulación. El video incluye subtítulos y una narración con voz sintética.</figcaption>
+            </figure>
+
+            <h2>Qué es un ciclo fijo</h2>
+            <p>Un ciclo fijo es <strong>modal</strong>: se escribe completo en el primer agujero y queda activo. Cada línea siguiente con solo <code>X</code> e <code>Y</code> repite el mismo ciclo en una nueva posición. Se cancela con <code>G80</code>.</p>
+            <p>La forma general es:</p>
+            <pre class="codigo-bloque" tabindex="0"><code>G98 G83 X_ Y_ Z_ R_ Q_ F_</code></pre>
+
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr><th scope="col">Parámetro</th><th scope="col">Qué indica</th><th scope="col">En el ejemplo</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>X</code> <code>Y</code></td><td>Posición del agujero</td><td>Ocho posiciones en círculo</td></tr>
+                        <tr><td><code>Z</code></td><td>Profundidad final (absoluta con <code>G90</code>)</td><td><code>Z-40.</code></td></tr>
+                        <tr><td><code>R</code></td><td>Plano de referencia: altura donde la herramienta pasa de avance rápido a avance de corte</td><td><code>R2.</code></td></tr>
+                        <tr><td><code>Q</code></td><td>Profundidad de cada picoteo (solo en <code>G83</code>), siempre positiva</td><td><code>Q2.5</code></td></tr>
+                        <tr><td><code>F</code></td><td>Avance de corte en mm/min</td><td><code>F40.</code></td></tr>
+                        <tr><td><code>G98</code> / <code>G99</code></td><td>Retorno al plano inicial (<code>G98</code>) o al plano R (<code>G99</code>) al terminar cada agujero</td><td><code>G98</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>G81 vs G83: cuándo usar cada uno</h2>
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr><th scope="col">Ciclo</th><th scope="col">Qué hace</th><th scope="col">Cuándo conviene</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>G81</code></td><td>Baja hasta Z de una sola vez, a avance de corte, y retira en rápido</td><td>Agujeros poco profundos, centrados y punteados</td></tr>
+                        <tr><td><code>G83</code></td><td>Baja de a <code>Q</code> milímetros y, después de cada picoteo, retira por completo hasta el plano R para evacuar la viruta</td><td>Agujeros profundos. Como referencia práctica, a partir de unas 3 a 4 veces el diámetro</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>En el ejemplo, la broca es de 8,5 mm y el agujero llega a 40 mm: casi 5 veces el diámetro. Es un caso típico para <code>G83</code>, porque en un agujero tan profundo la viruta no sale sola y se acumula en las gárgolas de la broca.</p>
+            <p>Dentro de la misma familia también existen <code>G82</code>, que agrega una pausa en el fondo, y <code>G73</code>, un picoteo con retiro corto para cortar la viruta sin salir del agujero. Los dos quedan para otro artículo.</p>
+
+            <h2>El ejemplo: ocho agujeros en círculo</h2>
+            <ul>
+                <li>Pieza de 200 mm en X por 100 mm en Y, con el G54 en el centro.</li>
+                <li>Broca de Ø8,5 mm a 600 RPM y avance en Z de 40 mm/min.</li>
+                <li>Ciclo <code>G83</code>, profundidad de 40 mm, plano R en 2 mm y picoteo de 2,5 mm.</li>
+                <li>Distribución circular: patrón de Ø50 mm, 8 agujeros, ángulo inicial de 0° y centro del patrón en X0, Y0.</li>
+            </ul>
+
+            <h2>Cálculo de las posiciones</h2>
+            <p>Con 8 agujeros, el paso entre ellos es 360° ÷ 8 = 45°. El radio del patrón es 25 mm, así que cada posición sale de <code>X = 25 × cos(θ)</code> e <code>Y = 25 × sin(θ)</code>:</p>
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr><th scope="col">Agujero</th><th scope="col">Ángulo</th><th scope="col">X</th><th scope="col">Y</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>0°</td><td>25.000</td><td>0.000</td></tr>
+                        <tr><td>2</td><td>45°</td><td>17.678</td><td>17.678</td></tr>
+                        <tr><td>3</td><td>90°</td><td>0.000</td><td>25.000</td></tr>
+                        <tr><td>4</td><td>135°</td><td>-17.678</td><td>17.678</td></tr>
+                        <tr><td>5</td><td>180°</td><td>-25.000</td><td>0.000</td></tr>
+                        <tr><td>6</td><td>225°</td><td>-17.678</td><td>-17.678</td></tr>
+                        <tr><td>7</td><td>270°</td><td>0.000</td><td>-25.000</td></tr>
+                        <tr><td>8</td><td>315°</td><td>17.678</td><td>-17.678</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>El programa completo</h2>
+            <p>Estas son las 24 líneas que genera GM-Mill Fanuc con esos datos:</p>
+
+            <pre class="codigo-bloque" tabindex="0"><code>%
+O1001 (GM-MILL FANUC)
+(HERRAMIENTA: BROCA DIA 8.5)
+G17 G21 G40 G49 G80 G90 G94 G54
+G91 G28 Z0.
+G90
+T1 M06
+G00 X25. Y0. S600 M03
+G43 H1 Z25.
+G00 Z5. M08
+G98 G83 X25. Y0. Z-40. R2. Q2.5 F40.
+X17.678 Y17.678
+X0. Y25.
+X-17.678 Y17.678
+X-25. Y0.
+X-17.678 Y-17.678
+X0. Y-25.
+X17.678 Y-17.678
+G80
+G00 Z5. M09
+G91 G28 Z0. M05
+G28 Y0.
+M30
+%</code></pre>
+
+            <h3>Cómo leerlo</h3>
+            <ul>
+                <li><strong>Líneas 2 a 6:</strong> número de programa, comentario con la herramienta y línea de seguridad. Incluye <code>G80</code>, que cancela cualquier ciclo fijo que hubiera quedado activo de un programa anterior.</li>
+                <li><strong>Líneas 7 a 10:</strong> cambio de herramienta, posicionamiento sobre el primer agujero con el husillo a 600 RPM, compensación de largo con <code>G43 H1</code> y bajada a Z5 con refrigerante.</li>
+                <li><strong>Línea 11:</strong> el ciclo completo en el primer agujero. Z-40 es la profundidad, R2 el plano de referencia, Q2.5 el picoteo y F40 el avance.</li>
+                <li><strong>Líneas 12 a 18:</strong> los otros siete agujeros. Solo llevan X e Y porque el ciclo sigue activo.</li>
+                <li><strong>Línea 19:</strong> <code>G80</code> cancela el ciclo.</li>
+                <li><strong>Líneas 20 a 24:</strong> retirada a Z5 con refrigerante apagado, retorno de Z al origen de máquina con el husillo detenido y fin de programa con <code>M30</code>.</li>
+            </ul>
+
+            <h3>Cuánto tarda</h3>
+            <p>Desde el plano R (Z2) hasta Z-40 hay 42 mm. Con picoteos de 2,5 mm son unos 17 por agujero, y con 8 agujeros más de 130 retiros completos hasta el plano R. A 40 mm/min, solo el corte son 42 ÷ 40 = 1,05 minutos por agujero, es decir, más de 8 minutos para los ocho, sin contar retiros ni movimientos rápidos. Un picoteo más corto es más seguro para la broca, pero suma tiempo, así que <code>Q</code> y <code>F</code> conviene ajustarlos según el material y la broca.</p>
+
+            <h2>Cargarlo en GM-Mill Fanuc</h2>
+            <ol>
+                <li>En la sección 1, cargá las medidas de la pieza y ubicá el G54.</li>
+                <li>En la sección 2, definí el diámetro de la broca, las RPM y el avance en Z.</li>
+                <li>En la sección 3, elegí <strong>Perforado</strong>.</li>
+                <li>En la sección 4, elegí el ciclo fijo (<strong>G81</strong> o <strong>G83</strong>) y la distribución (circular o puntos directos). Completá profundidad, plano R, picoteo Q, diámetro del patrón, cantidad de agujeros y ángulo inicial. Si dejás vacíos el centro X y el centro Y, el patrón queda en el centro de la pieza.</li>
+                <li>En la sección 5, generá el código G y copialo o descargalo como archivo <code>.NC</code>.</li>
+            </ol>
+
+            <h2>Antes de llevarlo a máquina</h2>
+            <div class="articulo-nota">
+                <p><strong>El punto decimal importa.</strong> En la mayoría de los controles Fanuc, un valor sin punto decimal se interpreta en la mínima unidad de programación (0,001 mm). Un <code>Q4</code> escrito a mano no es 4 mm. Escribí siempre <code>Q4.</code>, como lo hace el generador.</p>
+            </div>
+            <ul>
+                <li><strong>Z es la punta de la broca.</strong> En un agujero pasante, sumá a la profundidad el largo de la punta: con una punta de 118° es aproximadamente 0,3 veces el diámetro.</li>
+                <li><strong>Mirá el retorno entre agujeros.</strong> Con <code>G98</code> la herramienta vuelve a Z5 después de cada agujero. Con <code>G99</code> vuelve solo al plano R, más cerca de la pieza y más rápido, pero verificá que no haya mordazas ni bridas en el camino.</li>
+                <li><strong>Simulá con material suficiente.</strong> En simuladores que trabajan con un bloque de material, como CAMotics, el bloque tiene que cubrir la profundidad del agujero. Si el espesor simulado es menor que Z-40, el agujero no se muestra completo.</li>
+                <li>Corré siempre una prueba en aire y con el avance reducido antes de cortar material.</li>
+            </ul>
+
+            <h2>Conclusión</h2>
+            <p>Un ciclo fijo resume en una línea lo que de otro modo serían decenas de movimientos. <code>G81</code> alcanza para agujeros poco profundos; <code>G83</code> es la opción segura cuando el agujero es profundo y hay que evacuar la viruta. Un generador te ahorra las cuentas de las posiciones y te deja un programa fácil de leer y revisar, pero la elección del ciclo, del picoteo y del avance sigue siendo una decisión de taller.</p>
+
+            <div class="articulo-relacionado">
+                <p class="articulo-relacionado-etiqueta">Seguí leyendo</p>
+                <p><a href="como-programar-planeado-fresa-fanuc.html">Cómo programar un planeado en fresadora Fanuc: cálculo manual y programa generado</a></p>
+                <p><a href="gm-mill-fanuc-generador-codigo-g.html">GM-Mill Fanuc: cómo usar el generador gratuito de código G</a></p>
+            </div>
+
+            <p class="articulo-volver"><a href="index.html">← Volver al blog</a></p>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="articulo-footer">
+        <p>© 2026 Industria 4.0 - SolGia &amp; Tu Mundo 3D - Argentina</p>
+    </footer>
+
+</body>
+</html>
